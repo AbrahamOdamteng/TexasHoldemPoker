@@ -10,6 +10,8 @@ namespace TexasHoldem.UnitTests
     [TestFixture]
     class CardUnitTests
     {
+
+        #region Constructor Tests
         [TestCase("2H", CardRanks._2, CardSuits.H)]
         [TestCase("AH", CardRanks.A, CardSuits.H)]
         [TestCase("   TC     ", CardRanks.T, CardSuits.C)]
@@ -45,8 +47,9 @@ namespace TexasHoldem.UnitTests
             return card.IsRoyal();
         }
 
+        #endregion
 
-        #region Equality Tests -----------------------------------------
+        #region Equality Tests
         [TestCase("2H", "2H", ExpectedResult = true)]
         [TestCase("2H", "5H", ExpectedResult = false)]
         [TestCase("AC","AH", ExpectedResult = false)]
@@ -96,7 +99,7 @@ namespace TexasHoldem.UnitTests
         }
         #endregion
 
-        #region IComparable -----------------------------------------
+        #region IComparable
         [TestCase("2H", "2H", ExpectedResult = 0)]
         [TestCase("2H", "5H", ExpectedResult = -1)]
         [TestCase("AC", "KH", ExpectedResult = 1)]

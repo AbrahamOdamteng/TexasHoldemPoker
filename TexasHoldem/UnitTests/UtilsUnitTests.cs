@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Linq;
 using TexasHoldem.Utilities;
+using System;
 
 namespace TexasHoldem.UnitTests
 {
@@ -20,5 +21,16 @@ namespace TexasHoldem.UnitTests
             Assert.AreEqual(cardCount, cardArray.Count());
             return string.Join(",", cardArray.Select(c => c.ToString()).OrderBy(s => s));
         }
+
+        [Test]
+        public void Test_GenerateRandomCards()
+        {
+            var cardArray = Utils.GenerateRandomCards(10);
+            Console.WriteLine( string.Join(" ", cardArray));
+            
+        }
+
     }
+
+
 }
