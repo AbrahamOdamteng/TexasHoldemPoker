@@ -21,26 +21,15 @@ namespace TexasHoldem.UnitTests
             Assert.AreEqual(suit, card2h.Suit);
         }
 
-
-        [Test]
-        public void Test_Card_Constructor_Error()
+        [TestCase("", "The string representation of a card must be exactly two characters")]
+        [TestCase("abc", "The string representation of a card must be exactly two characters")]
+        [TestCase("1H", "Enum 'CardRanks' does not contain value: 1")]
+        [TestCase("2Z", "Enum 'CardSuits' does not contain value: Z")]
+        [TestCase("0Y", "Enum 'CardRanks' does not contain value: 0")]
+        public void Test_Card_Constructor_ErrorMessages(string strCard,string strErrorMsg)
         {
-            var sizeMsg = "The string representation of a card must be exactly two characters";
-
-            Assert.That(() => new Card(string.Empty),
-                Throws.ArgumentException.With.Message.EqualTo(sizeMsg));
-
-            Assert.That(() => new Card("abc"),
-                Throws.ArgumentException.With.Message.EqualTo(sizeMsg));
-
-            Assert.That(() => new Card("1H"),
-                Throws.ArgumentException.With.Message.EqualTo("Enum 'CardRanks' does not contain value: 1"));
-
-            Assert.That(() => new Card("FH"),
-                Throws.ArgumentException.With.Message.EqualTo("Enum 'CardRanks' does not contain value: F"));
-
-            Assert.That(() => new Card("2Z"),
-                Throws.ArgumentException.With.Message.EqualTo("Enum 'CardSuits' does not contain value: Z"));
+            Assert.That(() => new Card(strCard),
+                Throws.ArgumentException.With.Message.EqualTo(strErrorMsg));
         }
 
         [TestCase("2H", ExpectedResult = false)]
