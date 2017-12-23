@@ -44,5 +44,109 @@ namespace TexasHoldem.UnitTests
             var card = new Card(strCard);
             return card.IsRoyal();
         }
+
+
+        #region Equality Tests -----------------------------------------
+        [TestCase("2H", "2H", ExpectedResult = true)]
+        [TestCase("2H", "5H", ExpectedResult = false)]
+        [TestCase("AC","AH", ExpectedResult = false)]
+        public bool Test_Card_Equals(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne.Equals(cardTwo);
+        }
+
+        [TestCase("2H", "2H", ExpectedResult = true)]
+        [TestCase("2H", "5H", ExpectedResult = false)]
+        [TestCase("AC", "AH", ExpectedResult = false)]
+        public bool Test_Card_Object_Equals(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne.Equals((Object)cardTwo);
+        }
+
+        [Test]
+        public void Test_Card_Object_Equals_Null()
+        {
+            var cardOne = new Card("2H");
+            Assert.IsFalse(cardOne.Equals(null));
+        }
+
+
+        [TestCase("2H", "2H", ExpectedResult = true)]
+        [TestCase("2H", "5H", ExpectedResult = false)]
+        [TestCase("AC", "AH", ExpectedResult = false)]
+        public bool Test_Card_DoubleEqualsOperator(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne == cardTwo;
+        }
+
+        [TestCase("2H", "2H", ExpectedResult = false)]
+        [TestCase("2H", "5H", ExpectedResult = true)]
+        [TestCase("AC", "AH", ExpectedResult = true)]
+        public bool Test_Card_NotEqualsOperator(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne != cardTwo;
+        }
+        #endregion
+
+        #region IComparable -----------------------------------------
+        [TestCase("2H", "2H", ExpectedResult = 0)]
+        [TestCase("2H", "5H", ExpectedResult = -1)]
+        [TestCase("AC", "KH", ExpectedResult = 1)]
+        public int Test_Card_CompareTo(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne.CompareTo(cardTwo);
+        }
+
+        [TestCase("2H", "2H", ExpectedResult = false)]
+        [TestCase("2H", "5H", ExpectedResult = false)]
+        [TestCase("AC", "KH", ExpectedResult = true)]
+        public bool Test_Card_GreaterThanOperator(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne > cardTwo ;
+        }
+
+        [TestCase("2H", "2H", ExpectedResult = true)]
+        [TestCase("2H", "5H", ExpectedResult = false)]
+        [TestCase("AC", "KH", ExpectedResult = true)]
+        public bool Test_Card_GreaterThanOrEqualToOperator(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne >= cardTwo;
+        }
+
+
+        [TestCase("2H", "2H", ExpectedResult = false)]
+        [TestCase("2H", "5H", ExpectedResult = true)]
+        [TestCase("AC", "KH", ExpectedResult = false)]
+        public bool Test_Card_LessThanOperator(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne < cardTwo;
+        }
+
+        [TestCase("2H", "2H", ExpectedResult = true)]
+        [TestCase("2H", "5H", ExpectedResult = true)]
+        [TestCase("AC", "KH", ExpectedResult = false)]
+        public bool Test_Card_LessThanOrEqualToOperator(string cardA, string cardB)
+        {
+            var cardOne = new Card(cardA);
+            var cardTwo = new Card(cardB);
+            return cardOne <= cardTwo;
+        }
+        #endregion
     }
 }

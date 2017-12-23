@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Deck
 {
-    struct Card : IEquatable<Card>
+    struct Card : IEquatable<Card>, IComparable<Card>
     {
         internal CardRanks Rank { get; }
         internal CardSuits Suit { get; }
@@ -69,10 +69,29 @@ namespace TexasHoldem.Deck
             return rank + Suit;
         }
 
+        #region override Object Methods
+
         public override bool Equals(object obj)
         {
             if (!(obj is Card)) return false;
             return Equals((Card)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = 17;
+            hash = hash * 23 + Rank.GetHashCode();
+            hash = hash * 23 + Suit.GetHashCode();
+            return hash;
+        }
+
+        #endregion
+
+        #region IEquatable
+
+        public bool Equals(Card other)
+        {
+            return Rank == other.Rank && Suit == other.Suit;
         }
 
         public static bool operator ==(Card cardA, Card cardB)
@@ -85,18 +104,48 @@ namespace TexasHoldem.Deck
             return !(cardA.Equals(cardB));
         }
 
-        public override int GetHashCode()
+        #endregion
+
+        #region IComparable
+
+        public int CompareTo(Card other)
         {
-            var hash = 17;
-            hash = hash * 23 + Rank.GetHashCode();
-            hash = hash * 23 + Suit.GetHashCode();
-            return hash;
+            if (other == null) return 1;
+            if (Rank < other.Rank)
+            {
+                return -1;
+            }
+            else if (Rank == other.Rank)
+            {
+                return -0;
+            }
+            else
+            {
+                return 1;
+            }
         }
 
-        public bool Equals(Card other)
+        public static bool operator > (Card cardA, Card cardB)
         {
-            if (other == null) return false;
-            return Rank == other.Rank && Suit == other.Suit;
+            return cardA.CompareTo(cardB) == 1;
         }
+
+        public static bool operator >=(Card cardA, Card cardB)
+        {
+            var res = cardA.CompareTo(cardB);
+            return res == 0 || res == 1;
+        }
+
+        public static bool operator <(Card cardA, Card cardB)
+        {
+            return cardA.CompareTo(cardB) == -1;
+        }
+
+        public static bool operator <=(Card cardA, Card cardB)
+        {
+            var res = cardA.CompareTo(cardB);
+            return res == 0 || res == -1;
+        }
+        #endregion
     }
 }
