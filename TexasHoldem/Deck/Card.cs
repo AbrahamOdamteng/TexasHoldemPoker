@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Deck
 {
-    struct Card : IEquatable<Card>, IComparable<Card>
+    public struct Card : IEquatable<Card>, IComparable<Card>
     {
         internal CardRanks Rank { get; }
         internal CardSuits Suit { get; }

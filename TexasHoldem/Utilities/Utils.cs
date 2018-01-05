@@ -73,5 +73,34 @@ namespace TexasHoldem.Utilities
             return result;
 
         }
+
+        public static bool ConsequtiveCards(IEnumerable<Card> cards)
+        {
+            if (!cards.Any())
+            {
+                throw new ArgumentException("Parameter cards contains not elements");
+            }
+
+            List<int> ranks;
+
+            //Low Ace
+            if(cards.Any(c => c.Rank == CardRanks.A) && 
+                cards.Any(c => c.Rank == CardRanks._2) &&
+                 !cards.Any(c => c.Rank == CardRanks.K))
+            {
+                ranks = cards.Where(c => c.Rank != CardRanks.A).Select(c => (int)c.Rank).ToList();
+                ranks.Add(((int)CardRanks._2) - 1);
+            }
+            else
+            {
+                ranks = cards.Select(c => (int)c.Rank).ToList();
+            }
+
+            return !ranks.OrderBy(r => r)
+                .Select((r, i) => r - i)
+                .Distinct()
+                .Skip(1)
+                .Any();
+        }
     }
 }

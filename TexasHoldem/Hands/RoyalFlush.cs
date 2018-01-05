@@ -36,7 +36,7 @@ namespace TexasHoldem.Hands
             return royalflush;
         }
 
-        public static RoyalFlush CreateInstance(IEnumerable<Card> cards)
+        internal static RoyalFlush CreateInstance(IEnumerable<Card> cards)
         {
             var rfCards = GetRoyalFlush(cards);
             if (!rfCards.Any()) return null;
@@ -49,10 +49,10 @@ namespace TexasHoldem.Hands
 
         static IEnumerable<Card> GetRoyalFlush(IEnumerable<Card> cards)
         {
-            if (cards.Count() < 5) return new Card[0];
+            if (cards.Count() < 5) return Enumerable.Empty<Card>();
 
             var royals = cards.Where(c => c.IsRoyal());
-            if (royals.Count() < 5) return new Card[0];
+            if (royals.Count() < 5) return Enumerable.Empty<Card>();
 
             return royals.GroupBy(r => r.Suit).Where(g => g.Count() == 5).SelectMany(g => g);
         }

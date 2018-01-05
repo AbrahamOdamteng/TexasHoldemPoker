@@ -2,11 +2,11 @@
 using System.Linq;
 using TexasHoldem.Utilities;
 using System;
-
+using TexasHoldem.Deck;
 namespace TexasHoldem.UnitTests
 {
     [TestFixture]
-    class UtilsUnitTests
+    public class UtilsUnitTests
     {
         [TestCase("", 0, ExpectedResult = "")]
         [TestCase("AS", 1, ExpectedResult = "AS")]
@@ -22,8 +22,30 @@ namespace TexasHoldem.UnitTests
             return string.Join(",", cardArray.Select(c => c.ToString()).OrderBy(s => s));
         }
 
+
+        [TestCase("2C", ExpectedResult = true)]
+        [TestCase("2C AS", ExpectedResult = true)]
+        [TestCase("2C 3D", ExpectedResult = true)]
+        [TestCase("2C 3D 4H 5S 6C 7D 8H 9S TC JD QH KS AC", ExpectedResult = true)]
+        [TestCase("TD JD QD KD AD", ExpectedResult = true)]
+        [TestCase("AD 2C 3D 4H 5S", ExpectedResult = true)]
+        [TestCase("2C 4D 5H 6S", ExpectedResult = false)]
+        [TestCase("2C 2D", ExpectedResult = false)]
+        public bool Test_Utils_ConsequtiveCards(string strCards)
+        {
+            var cards = Utils.ParseCards(strCards);
+            return Utils.ConsequtiveCards(cards);
+        }
+
+        public void Test_Utils_ConsequtiveCards_NoCards(string strCards)
+        {
+            Assert.That(
+                () => Utils.ConsequtiveCards(new Card[0]), 
+                Throws.ArgumentException.With.Message.EqualTo("Parameter cards contains not elements"));
+        }
+
         [Test]
-        public void Test_GenerateRandomCards()
+        public void Test_Utils_GenerateRandomCards()
         {
             var cardArray = Utils.GenerateRandomCards(10);
             Console.WriteLine( string.Join(" ", cardArray));
