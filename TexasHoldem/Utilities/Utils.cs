@@ -120,7 +120,6 @@ namespace TexasHoldem.Utilities
 
         public static bool IsStraight(IEnumerable<Card> cards)
         {
-            var cardCount = cards.Count();
             if (cards.Count() != 5)
             {
                 throw new ArgumentException("The number of cards provided must be 5");
@@ -144,6 +143,22 @@ namespace TexasHoldem.Utilities
             {
                 return IsStraightHelper(cards);
             }
+        }
+
+        public static Card GetHighestCard(IEnumerable<Card> cards)
+        {
+            var cardCount = cards.Count();
+            if (cards.Count() != 5)
+            {
+                throw new ArgumentException("The number of cards provided must be 5");
+            }
+
+            if(cards.Any(c => c.Rank == CardRanks.A) && cards.Any(c => c.Rank == CardRanks._2))
+            {
+                return cards.Where(c => c.Rank != CardRanks.A).OrderBy(c => c.Rank).Last();
+            }
+
+            return cards.OrderBy(c => c.Rank).Last();
         }
     }
 }

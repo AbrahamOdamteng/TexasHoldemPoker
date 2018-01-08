@@ -9,13 +9,16 @@ using TexasHoldem.Utilities;
 
 namespace TexasHoldem.Hands
 {
-    class StraightFlush : IPokerHand
+    class StraightFlush :BaseHand
     {
-        public HandRanks HandRank { get { return HandRanks.StraightFlush; } }
+        public override HandRanks HandRank { get { return HandRanks.StraightFlush; } }
 
-        public IEnumerable<Card> Cards { get; private set; }
+        public override IEnumerable<Card> Cards { get; }
 
-        private StraightFlush() { }
+        private StraightFlush(IEnumerable<Card> _cards)
+        {
+            Cards = _cards;
+        }
 
         public static StraightFlush CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
         {
@@ -48,8 +51,7 @@ namespace TexasHoldem.Hands
                 //This hand is actually a royal flush
                 if (straightFlushCards.All(c => c.IsRoyal())) return null;
 
-                var res = new StraightFlush();
-                res.Cards = straightFlushCards;
+                var res = new StraightFlush(straightFlushCards);
                 return res;
             }
 
@@ -58,6 +60,11 @@ namespace TexasHoldem.Hands
 
         internal static StraightFlush CreateInstance(IEnumerable<Card> cards)
         {
+            var newCards = GetHighestStraightFlush(cards);
+            if (newCards.Any())
+            {
+                return new StraightFlush(newCards);
+            }
             return null;
         }
 
@@ -76,14 +83,84 @@ namespace TexasHoldem.Hands
 
         }
 
-        public int CompareTo(IPokerHand other)
+        #region Override Object methods
+
+        public override bool Equals(object obj)
         {
-            throw new NotImplementedException();
+            return base.Equals(obj);
         }
 
-        public bool Equals(IPokerHand other)
+        public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return base.GetHashCode();
         }
+
+        #endregion
+
+
+        #region Equality Operators
+        public static bool operator ==(StraightFlush straightFlush, IPokerHand pokerHand)
+        {
+            if (straightFlush is null)
+            {
+                return pokerHand is null ? true : false;
+            }
+            return straightFlush.Equals(pokerHand);
+        }
+
+        public static bool operator !=(StraightFlush straightFlush, IPokerHand pokerHand)
+        {
+            if (straightFlush is null)
+            {
+                return pokerHand is null ? false : true;
+            }
+            return !straightFlush.Equals(pokerHand);
+        }
+        #endregion
+
+
+        #region Implementation of IComparable
+        public override int CompareTo(IPokerHand other)
+        {
+            if (other is null) return 1;
+            if (HandRank > other.HandRank) return 1;
+            if (HandRank < other.HandRank) return -1;
+
+            var otherHighCard = Utils.GetHighestCard(other.Cards);
+            var myHighCard = Utils.GetHighestCard(Cards);
+
+            if (myHighCard.Rank > otherHighCard.Rank) return 1;
+            if (myHighCard.Rank < otherHighCard.Rank) return -1;
+            return 0;
+
+        }
+        #endregion
+
+        #region Comparison Operators
+
+        public static bool operator >(StraightFlush straightFlush, IPokerHand pokerHand)
+        {
+            return straightFlush.CompareTo(pokerHand) == 1;
+        }
+
+        public static bool operator >=(StraightFlush straightFlush, IPokerHand pokerHand)
+        {
+            var res = straightFlush.CompareTo(pokerHand);
+            return res == 0 || res == 1;
+        }
+
+        public static bool operator <(StraightFlush straightFlush, IPokerHand pokerHand)
+        {
+            return straightFlush.CompareTo(pokerHand) == -1;
+        }
+
+        public static bool operator <=(StraightFlush straightFlush, IPokerHand pokerHand)
+        {
+            var res = straightFlush.CompareTo(pokerHand);
+            return res == 0 || res == -1;
+        }
+
+        #endregion
+
     }
 }

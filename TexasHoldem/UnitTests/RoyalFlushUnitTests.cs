@@ -49,6 +49,12 @@ namespace TexasHoldem.UnitTests
         {
             Assert.Fail();
         }
+
+        [Test]
+        public void Test_RoyalFlush_ToString()
+        {
+            Assert.Fail();
+        }
         #endregion
 
         #region Test Equality Operators
@@ -106,6 +112,24 @@ namespace TexasHoldem.UnitTests
             {
                 throw new ArgumentException("the value of comp can only be -1,0,1");
             }
+        }
+
+        [Test]
+        public void Test_RoyalFlush_EqualityOperators_ForNull()
+        {
+
+            var cards = Utils.ParseCards("TH JH KH QH AH");
+            var royalflush = RoyalFlush.CreateInstance(cards);
+
+            Assert.False(royalflush.Equals(null));
+
+            Assert.True((RoyalFlush)null == (RoyalFlush)null);
+            Assert.False((RoyalFlush)null == royalflush);
+            Assert.False(royalflush == (RoyalFlush)null);
+
+            Assert.False((RoyalFlush) null != (RoyalFlush) null);
+            Assert.True((RoyalFlush)null != royalflush);
+            Assert.True(royalflush != (RoyalFlush)null);
         }
 
         #endregion

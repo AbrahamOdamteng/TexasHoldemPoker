@@ -79,6 +79,16 @@ namespace TexasHoldem.UnitTests
             var cards = Utils.ParseCards("2C 3D 4H 5S 6C 7S");
             Assert.That(() => Utils.IsStraight(cards), Throws.ArgumentException.With.Message.EqualTo("The number of cards provided must be 5"));
         }
+
+        [TestCase("2C 3C 4C 5C 6C", "6C")]
+        [TestCase("AC 2C 3C 4C 5C", "5C")]
+        [TestCase("TD JD QD KD AD", "AD")]
+        public void Test_Utils_GetHighestCard(string inputCards, string highCard)
+        {
+            var cards = Utils.ParseCards(inputCards);
+            var hiCard = Utils.GetHighestCard(cards);
+            Assert.AreEqual(highCard, hiCard.ToString());
+        }
     }
 
 

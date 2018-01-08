@@ -6,13 +6,17 @@ using TexasHoldem.Utilities;
 
 namespace TexasHoldem.Hands
 {
-    class RoyalFlush : IPokerHand
+    class RoyalFlush : BaseHand
     {
-        public IEnumerable<Card> Cards { get; private set; }
+        public override IEnumerable<Card> Cards { get; }
 
-        public HandRanks HandRank => HandRanks.RoyalFlush;
+        public override HandRanks HandRank => HandRanks.RoyalFlush;
 
-        private RoyalFlush() { }
+        private RoyalFlush(IEnumerable<Card> _Cards)
+        {
+            Cards = _Cards;
+
+        }
 
         public static RoyalFlush CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
         {
@@ -30,8 +34,8 @@ namespace TexasHoldem.Hands
             var rfCards = GetRoyalFlush(allCards);
             if (!rfCards.Any()) return null;
 
-            var royalflush = new RoyalFlush();
-            royalflush.Cards = rfCards;
+            var royalflush = new RoyalFlush(rfCards);
+
 
             return royalflush;
         }
@@ -41,8 +45,7 @@ namespace TexasHoldem.Hands
             var rfCards = GetRoyalFlush(cards);
             if (!rfCards.Any()) return null;
 
-            var royalflush = new RoyalFlush();
-            royalflush.Cards = rfCards;
+            var royalflush = new RoyalFlush(rfCards);
 
             return royalflush;
         }
@@ -57,33 +60,25 @@ namespace TexasHoldem.Hands
             return royals.GroupBy(r => r.Suit).Where(g => g.Count() == 5).SelectMany(g => g);
         }
 
-        #region Override Object methods
+
+        #region
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
-            var pokerHand = obj as IPokerHand;
-            if (pokerHand == null) return false;
-
-            return Equals(pokerHand);
+            return base.Equals(obj);//Needed to surpress warnings
         }
 
         public override int GetHashCode()
         {
-            var hash = 17;
-            hash = hash * 23 + (int)this.HandRank;
-            foreach (var card in Cards)
-            {
-                hash = hash * 23 + card.GetHashCode();
-            }
-            return hash;
+            return base.GetHashCode();//Needed to surpress warnings
         }
-        #endregion
 
+
+        #endregion
 
 
         #region IEquatable
 
-        public bool Equals(IPokerHand other)
+        public override bool Equals(IPokerHand other)
         {
             if (other == null) return false;
             if (other.HandRank == HandRanks.RoyalFlush)
@@ -96,21 +91,29 @@ namespace TexasHoldem.Hands
             return false;
         }
         
-        public static bool operator == (RoyalFlush royalFlush, IPokerHand pokerHandB)
+        public static bool operator == (RoyalFlush royalFlush, IPokerHand pokerHand)
         {
-            return royalFlush.Equals(pokerHandB);
+            if (royalFlush is null)
+            {
+                return pokerHand is null ? true : false;
+            }
+            return  royalFlush.Equals(pokerHand);
         }
 
-        public static bool operator !=(RoyalFlush royalFlush, IPokerHand pokerHandB)
+        public static bool operator !=(RoyalFlush royalFlush, IPokerHand pokerHand)
         {
-            return !royalFlush.Equals(pokerHandB);
+            if (royalFlush is null)
+            {
+                return pokerHand is null ? false :true;
+            }
+            return !royalFlush.Equals(pokerHand);
         }
 
         #endregion
 
         #region IComparable
 
-        public int CompareTo(IPokerHand other)
+        public override int CompareTo(IPokerHand other)
         {
             if (other == null) return 1;
             if (other.HandRank == HandRanks.RoyalFlush) return 0;
