@@ -29,7 +29,6 @@ namespace TexasHoldem.UnitTests
         [TestCase("TD JD KD", "AD QD", true, Description = "Test RoyalFlush")]
         public void Test_RoyalFlush_CreateInstance(string communityCardsStr, string holeCardsStr, bool isValid)
         {
-
             var communityCards = Utils.ParseCards(communityCardsStr);
             var holeCards = Utils.ParseCards(holeCardsStr);
 

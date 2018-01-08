@@ -78,7 +78,6 @@
     <Compile Include="UnitTests\CardUnitTests.cs" />
     <Compile Include="UnitTests\RoyalFlushUnitTests.cs" />
     <Compile Include="UnitTests\StraightFlushUnitTests.cs" />
-    <Compile Include="UnitTests\TestClass.cs" />
     <Compile Include="UnitTests\UtilsUnitTests.cs" />
     <Compile Include="Utilities\Utils.cs" />
   </ItemGroup>

@@ -23,27 +23,6 @@ namespace TexasHoldem.UnitTests
         }
 
 
-        [TestCase("2C", ExpectedResult = true)]
-        [TestCase("2C AS", ExpectedResult = true)]
-        [TestCase("2C 3D", ExpectedResult = true)]
-        [TestCase("2C 3D 4H 5S 6C 7D 8H 9S TC JD QH KS AC", ExpectedResult = true)]
-        [TestCase("TD JD QD KD AD", ExpectedResult = true)]
-        [TestCase("AD 2C 3D 4H 5S", ExpectedResult = true)]
-        [TestCase("2C 4D 5H 6S", ExpectedResult = false)]
-        [TestCase("2C 2D", ExpectedResult = false)]
-        public bool Test_Utils_ConsequtiveCards(string strCards)
-        {
-            var cards = Utils.ParseCards(strCards);
-            return Utils.ConsequtiveCards(cards);
-        }
-
-        public void Test_Utils_ConsequtiveCards_NoCards(string strCards)
-        {
-            Assert.That(
-                () => Utils.ConsequtiveCards(new Card[0]), 
-                Throws.ArgumentException.With.Message.EqualTo("Parameter cards contains not elements"));
-        }
-
         [Test]
         public void Test_Utils_GenerateRandomCards()
         {
@@ -52,6 +31,54 @@ namespace TexasHoldem.UnitTests
             
         }
 
+        [TestCase("2C 3D 4H 5S 6C", "2C 3D 4H 5S 6C", Description = "Basic Test")]
+        [TestCase("2C 3D 3H 4H 5S 6C 6S", "2C 3D 4H 5S 6C", Description = "Basic Test")]
+        [TestCase("4H 5S 6C 7D 8H 9S TC", "6C 7D 8H 9S TC", Description = "High Straight")]
+        [TestCase("4H 6C 8H TC 5S 7D 9S", "6C 7D 8H 9S TC", Description = "Test that card order is ignored")]
+        [TestCase("2C 3D 4H 5S AC", "AC 2C 3D 4H 5S", Description = "Test Low Ace straight (5 cards)")]
+        [TestCase("2C 3D 4H 5S AC 7C 8D", "AC 2C 3D 4H 5S", Description = "Test Low Ace straight (7 Cards)")]
+        [TestCase("2C 3D 4H 5S AC AS AD", "AC 2C 3D 4H 5S",
+                Description = "Test Low Ace straight (7 Cards) multiple aces PLEASE NOTE: Which Ace is returned is Irrelevant")]
+        [TestCase("TC JD QH KS AC", "TC JD QH KS AC", Description = "Test High Ace straight")]
+        public void Test_Utils_GetHighestStraight(string strInputHand, string strExpectedCards)
+        {
+            var cards = Utils.ParseCards(strInputHand);
+            var highestStraight = Utils.GetHighestStraight(cards);
+
+            var expectedCards = Utils.ParseCards(strExpectedCards);
+            CollectionAssert.AreEquivalent(expectedCards, highestStraight);
+        }
+
+        [Test]
+        public void Test_Utils_GetHighestStraight_TooManyCards()
+        {
+            var cards = Utils.ParseCards("4H 6C 8H TC 5S 7D 9S AS");
+            Assert.That(() => Utils.GetHighestStraight(cards), Throws.ArgumentException.With.Message.EqualTo("The number of cards provided must be between 5 and 7 inclusive"));
+
+            cards = Utils.ParseCards("5S 7D 9S AS");
+            Assert.That(() => Utils.GetHighestStraight(cards), Throws.ArgumentException.With.Message.EqualTo("The number of cards provided must be between 5 and 7 inclusive"));
+        }
+
+
+
+        [TestCase("2C 3D 4H 5S 6C",ExpectedResult = true, Description = "Basic Straight")]
+        [TestCase("AS 2C 3D 4H 5S", ExpectedResult = true, Description = "Low Ace Straight")]
+        [TestCase("TD JC QD KC AS", ExpectedResult = true, Description = "Low Ace Straight")]
+        [TestCase("2C 4D 6H 8S TC", ExpectedResult = false, Description = "Not a Straight")]
+        [TestCase("2C 3D 4H AS AC", ExpectedResult = false, Description = "Not a Straight")]
+        [TestCase("2C 4D 6H KS AC", ExpectedResult = false, Description = "Not a Straight With Ace")]
+        public bool Test_Utils_IsStraight(string strCards)
+        {
+            var cards = Utils.ParseCards(strCards);
+            return Utils.IsStraight(cards);
+        }
+
+        [Test]
+        public void Test_Utils_IsStraight_Error()
+        {
+            var cards = Utils.ParseCards("2C 3D 4H 5S 6C 7S");
+            Assert.That(() => Utils.IsStraight(cards), Throws.ArgumentException.With.Message.EqualTo("The number of cards provided must be 5"));
+        }
     }
 
 

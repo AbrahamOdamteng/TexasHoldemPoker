@@ -74,33 +74,76 @@ namespace TexasHoldem.Utilities
 
         }
 
-        public static bool ConsequtiveCards(IEnumerable<Card> cards)
+
+        public static IEnumerable<Card> GetHighestStraight(IEnumerable<Card> cards)
         {
-            if (!cards.Any())
+            var cardCount = cards.Count();
+            if(cardCount < 5 || cardCount > 7)
             {
-                throw new ArgumentException("Parameter cards contains not elements");
+                throw new ArgumentException("The number of cards provided must be between 5 and 7 inclusive");
             }
 
-            List<int> ranks;
-
-            //Low Ace
-            if(cards.Any(c => c.Rank == CardRanks.A) && 
-                cards.Any(c => c.Rank == CardRanks._2) &&
-                 !cards.Any(c => c.Rank == CardRanks.K))
+            List<Card> _noDuplicateRanks = new List<Card>();
+            foreach (var myCard in cards)
             {
-                ranks = cards.Where(c => c.Rank != CardRanks.A).Select(c => (int)c.Rank).ToList();
-                ranks.Add(((int)CardRanks._2) - 1);
+                if(_noDuplicateRanks.Any(c => c.Rank == myCard.Rank))
+                {
+                    continue;
+                }
+
+                _noDuplicateRanks.Add(myCard);
+            }
+
+            cards = _noDuplicateRanks;
+
+            var orderedCards = cards.OrderByDescending(c => c).ToArray();
+            for (int i = 0; i <= cards.Count() - 5; i++)
+            {
+                var fiveCards = orderedCards.Skip(i).Take(5).ToArray();
+                if (IsStraight(fiveCards)) return fiveCards;
+            }
+
+
+
+            //Test Fow Low-Ace Straight
+            if (cards.Any(c => c.Rank == CardRanks.A) && cards.Any(c => c.Rank == CardRanks._2))
+            {
+                var ascendingNoAceCards = cards.Where(c => c.Rank != CardRanks.A).OrderBy(c => c);
+                var ace = cards.FirstOrDefault(c => c.Rank == CardRanks.A);
+
+                var fiveCards = Enumerable.Concat(new[] { ace }, ascendingNoAceCards).Take(5);
+                if (IsStraight(fiveCards)) return fiveCards;
+            }
+
+            return Enumerable.Empty<Card>();
+        }
+
+        public static bool IsStraight(IEnumerable<Card> cards)
+        {
+            var cardCount = cards.Count();
+            if (cards.Count() != 5)
+            {
+                throw new ArgumentException("The number of cards provided must be 5");
+            }
+
+            //All cards must have unique rank to qualify as a straight.
+            if (cards.Select(c => c.Rank).Distinct().Count() != cards.Count()) return false;
+
+            Func<IEnumerable<Card>, bool> IsStraightHelper = (IEnumerable<Card> myCards) => 
+            {
+                return !myCards.OrderBy(c => c.Rank).Select((c, i) => c.Rank - i).Distinct().Skip(1).Any();
+            };
+
+
+            if (cards.Any(c => c.Rank == CardRanks.A))
+            {
+                var isStraight = IsStraightHelper(cards.Where(c => c.Rank != CardRanks.A));
+                return isStraight && cards.Any(c => c.Rank == CardRanks._2 || c.Rank == CardRanks.K);
             }
             else
             {
-                ranks = cards.Select(c => (int)c.Rank).ToList();
+                return IsStraightHelper(cards);
             }
-
-            return !ranks.OrderBy(r => r)
-                .Select((r, i) => r - i)
-                .Distinct()
-                .Skip(1)
-                .Any();
         }
     }
 }
