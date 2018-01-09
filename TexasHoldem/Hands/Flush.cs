@@ -8,20 +8,69 @@ using TexasHoldem.Interfaces;
 
 namespace TexasHoldem.Hands
 {
-    class Flush : IPokerHand
+    class Flush : BaseHand
     {
-        public HandRanks HandRank => throw new NotImplementedException();
 
-        public IEnumerable<Card> Cards => throw new NotImplementedException();
+        #region override of Object Methods
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
 
-        public int CompareTo(IPokerHand other)
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
+
+        #region Implemenation of IComparable
+        public override int CompareTo(IPokerHand other)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
-        public bool Equals(IPokerHand other)
+        #region operator overloading
+
+        public static bool operator ==(Flush flush, IPokerHand pokerHand)
         {
-            throw new NotImplementedException();
+            if (flush is null)
+            {
+                return pokerHand is null ? true : false;
+            }
+            return flush.Equals(pokerHand);
         }
+
+        public static bool operator !=(Flush flush, IPokerHand pokerHand)
+        {
+            if (flush is null)
+            {
+                return pokerHand is null ? false : true;
+            }
+            return !flush.Equals(pokerHand);
+        }
+
+        public static bool operator >(Flush flush, IPokerHand pokerHand)
+        {
+            return flush.CompareTo(pokerHand) == 1;
+        }
+
+        public static bool operator >=(Flush flush, IPokerHand pokerHand)
+        {
+            var res = flush.CompareTo(pokerHand);
+            return res == 0 || res == 1;
+        }
+
+        public static bool operator <(Flush flush, IPokerHand pokerHand)
+        {
+            return flush.CompareTo(pokerHand) == -1;
+        }
+
+        public static bool operator <=(Flush flush, IPokerHand pokerHand)
+        {
+            var res = flush.CompareTo(pokerHand);
+            return res == 0 || res == -1;
+        }
+        #endregion
     }
 }

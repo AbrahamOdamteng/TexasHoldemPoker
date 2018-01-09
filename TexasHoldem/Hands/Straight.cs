@@ -8,20 +8,69 @@ using TexasHoldem.Interfaces;
 
 namespace TexasHoldem.Hands
 {
-    class Straight : IPokerHand
+    class Straight : BaseHand
     {
-        public HandRanks HandRank => throw new NotImplementedException();
 
-        public IEnumerable<Card> Cards => throw new NotImplementedException();
+        #region override of Object Methods
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
 
-        public int CompareTo(IPokerHand other)
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
+
+        #region Implemenation of IComparable
+        public override int CompareTo(IPokerHand other)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
-        public bool Equals(IPokerHand other)
+        #region operator overloading
+
+        public static bool operator ==(Straight straight, IPokerHand pokerHand)
         {
-            throw new NotImplementedException();
+            if (straight is null)
+            {
+                return pokerHand is null ? true : false;
+            }
+            return straight.Equals(pokerHand);
         }
+
+        public static bool operator !=(Straight straight, IPokerHand pokerHand)
+        {
+            if (straight is null)
+            {
+                return pokerHand is null ? false : true;
+            }
+            return !straight.Equals(pokerHand);
+        }
+
+        public static bool operator >(Straight straight, IPokerHand pokerHand)
+        {
+            return straight.CompareTo(pokerHand) == 1;
+        }
+
+        public static bool operator >=(Straight straight, IPokerHand pokerHand)
+        {
+            var res = straight.CompareTo(pokerHand);
+            return res == 0 || res == 1;
+        }
+
+        public static bool operator <(Straight straight, IPokerHand pokerHand)
+        {
+            return straight.CompareTo(pokerHand) == -1;
+        }
+
+        public static bool operator <=(Straight straight, IPokerHand pokerHand)
+        {
+            var res = straight.CompareTo(pokerHand);
+            return res == 0 || res == -1;
+        }
+        #endregion
     }
 }

@@ -8,20 +8,68 @@ using TexasHoldem.Interfaces;
 
 namespace TexasHoldem.Hands
 {
-    class HighCard : IPokerHand
+    class HighCard : BaseHand
     {
-        public HandRanks HandRank => throw new NotImplementedException();
+        #region override of Object Methods
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
 
-        public IEnumerable<Card> Cards => throw new NotImplementedException();
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
 
-        public int CompareTo(IPokerHand other)
+        #region Implemenation of IComparable
+        public override int CompareTo(IPokerHand other)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
-        public bool Equals(IPokerHand other)
+        #region operator overloading
+
+        public static bool operator ==(HighCard highCard, IPokerHand pokerHand)
         {
-            throw new NotImplementedException();
+            if (highCard is null)
+            {
+                return pokerHand is null ? true : false;
+            }
+            return highCard.Equals(pokerHand);
         }
+
+        public static bool operator !=(HighCard highCard, IPokerHand pokerHand)
+        {
+            if (highCard is null)
+            {
+                return pokerHand is null ? false : true;
+            }
+            return !highCard.Equals(pokerHand);
+        }
+
+        public static bool operator >(HighCard highCard, IPokerHand pokerHand)
+        {
+            return highCard.CompareTo(pokerHand) == 1;
+        }
+
+        public static bool operator >=(HighCard highCard, IPokerHand pokerHand)
+        {
+            var res = highCard.CompareTo(pokerHand);
+            return res == 0 || res == 1;
+        }
+
+        public static bool operator <(HighCard highCard, IPokerHand pokerHand)
+        {
+            return highCard.CompareTo(pokerHand) == -1;
+        }
+
+        public static bool operator <=(HighCard highCard, IPokerHand pokerHand)
+        {
+            var res = highCard.CompareTo(pokerHand);
+            return res == 0 || res == -1;
+        }
+        #endregion
     }
 }

@@ -7,20 +7,69 @@ using TexasHoldem.Deck;
 using TexasHoldem.Interfaces;
 namespace TexasHoldem.Hands
 {
-    class ThreeOfAkind : IPokerHand
+    class ThreeOfAkind : BaseHand
     {
-        public HandRanks HandRank => throw new NotImplementedException();
 
-        public IEnumerable<Card> Cards => throw new NotImplementedException();
+        #region override of Object Methods
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
 
-        public int CompareTo(IPokerHand other)
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
+
+        #region Implemenation of IComparable
+        public override int CompareTo(IPokerHand other)
         {
             throw new NotImplementedException();
         }
+        #endregion
 
-        public bool Equals(IPokerHand other)
+        #region operator overloading
+
+        public static bool operator ==(ThreeOfAkind threeOfAkind, IPokerHand pokerHand)
         {
-            throw new NotImplementedException();
+            if (threeOfAkind is null)
+            {
+                return pokerHand is null ? true : false;
+            }
+            return threeOfAkind.Equals(pokerHand);
         }
+
+        public static bool operator !=(ThreeOfAkind threeOfAkind, IPokerHand pokerHand)
+        {
+            if (threeOfAkind is null)
+            {
+                return pokerHand is null ? false : true;
+            }
+            return !threeOfAkind.Equals(pokerHand);
+        }
+
+        public static bool operator >(ThreeOfAkind threeOfAkind, IPokerHand pokerHand)
+        {
+            return threeOfAkind.CompareTo(pokerHand) == 1;
+        }
+
+        public static bool operator >=(ThreeOfAkind threeOfAkind, IPokerHand pokerHand)
+        {
+            var res = threeOfAkind.CompareTo(pokerHand);
+            return res == 0 || res == 1;
+        }
+
+        public static bool operator <(ThreeOfAkind threeOfAkind, IPokerHand pokerHand)
+        {
+            return threeOfAkind.CompareTo(pokerHand) == -1;
+        }
+
+        public static bool operator <=(ThreeOfAkind threeOfAkind, IPokerHand pokerHand)
+        {
+            var res = threeOfAkind.CompareTo(pokerHand);
+            return res == 0 || res == -1;
+        }
+        #endregion
     }
 }
