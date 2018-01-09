@@ -11,9 +11,13 @@ namespace TexasHoldem.Hands
 {
     class StraightFlush :BaseHand
     {
-        public override HandRanks HandRank { get { return HandRanks.StraightFlush; } }
+        #region implementation of IPokerHand Memberes
 
         public override IEnumerable<Card> Cards { get; }
+
+        public override HandRanks HandRank { get { return HandRanks.StraightFlush; } }
+
+        #endregion
 
         private StraightFlush(IEnumerable<Card> _cards)
         {

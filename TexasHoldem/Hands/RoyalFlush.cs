@@ -8,9 +8,13 @@ namespace TexasHoldem.Hands
 {
     class RoyalFlush : BaseHand
     {
+        #region implementation of IPokerHand Memberes
+
         public override IEnumerable<Card> Cards { get; }
 
-        public override HandRanks HandRank => HandRanks.RoyalFlush;
+        public override HandRanks HandRank { get { return HandRanks.RoyalFlush; } }
+
+        #endregion
 
         private RoyalFlush(IEnumerable<Card> _Cards)
         {

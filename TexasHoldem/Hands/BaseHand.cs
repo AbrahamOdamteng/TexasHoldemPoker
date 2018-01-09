@@ -10,6 +10,8 @@ namespace TexasHoldem.Hands
 {
     abstract class BaseHand: IPokerHand
     {
+        public static int CardsPerHand = 5;
+
         public virtual HandRanks HandRank { get;  }
 
         public virtual IEnumerable<Card> Cards { get;  }

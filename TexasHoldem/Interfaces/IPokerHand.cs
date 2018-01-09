@@ -12,5 +12,6 @@ namespace TexasHoldem.Interfaces
     {
         HandRanks HandRank { get; }
         IEnumerable<Card> Cards { get; }
+        
     }
 }

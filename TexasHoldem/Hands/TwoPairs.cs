@@ -9,6 +9,26 @@ namespace TexasHoldem.Hands
 {
     class TwoPairs : BaseHand
     {
+        #region implementation of IPokerHand Memberes
+
+        public override IEnumerable<Card> Cards { get; }
+
+        public override HandRanks HandRank { get { return HandRanks.TwoPairs; } }
+
+        #endregion
+
+        #region CreateInstance
+
+        public static TwoPairs CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static TwoPairs CreateInstance(IEnumerable<Card> cards)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
         #region override of Object Methods
         public override bool Equals(object obj)

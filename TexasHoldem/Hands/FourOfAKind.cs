@@ -11,8 +11,13 @@ namespace TexasHoldem.Hands
 {
     class FourOfAKind : BaseHand
     {
+        #region implementation of IPokerHand Memberes
+
         public override IEnumerable<Card> Cards { get; }
-        public override HandRanks HandRank => HandRanks.FourOfAKind;
+
+        public override HandRanks HandRank { get { return HandRanks.FourOfAKind; } }
+
+        #endregion
 
         public IEnumerable<Card> Quad { get; }
         public CardRanks QuadRank { get; }

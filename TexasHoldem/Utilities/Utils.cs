@@ -6,7 +6,7 @@ namespace TexasHoldem.Utilities
 {
     static class Utils
     {
-        public static IEnumerable<Card> ParseCards(string cards)
+        internal static IEnumerable<Card> ParseCards(string cards)
         {
             cards = cards.Trim();
             if (cards.Length == 0) return new Card[0];
@@ -22,7 +22,7 @@ namespace TexasHoldem.Utilities
             return cardArray;
         }
 
-        public static void Validate(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
+        internal static void Validate(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
         {
             var communityCardCount = communityCards.Count();
             if (communityCardCount < 3 || communityCardCount > 5)
@@ -75,7 +75,7 @@ namespace TexasHoldem.Utilities
         }
 
 
-        public static IEnumerable<Card> GetHighestStraight(IEnumerable<Card> cards)
+        internal static IEnumerable<Card> GetHighestStraight(IEnumerable<Card> cards)
         {
             var cardCount = cards.Count();
             if(cardCount < 5 || cardCount > 7)
@@ -118,7 +118,7 @@ namespace TexasHoldem.Utilities
             return Enumerable.Empty<Card>();
         }
 
-        public static bool IsStraight(IEnumerable<Card> cards)
+        internal static bool IsStraight(IEnumerable<Card> cards)
         {
             if (cards.Count() != 5)
             {
@@ -145,7 +145,7 @@ namespace TexasHoldem.Utilities
             }
         }
 
-        public static Card GetHighestCard(IEnumerable<Card> cards)
+        internal static Card GetHighestCard(IEnumerable<Card> cards)
         {
             var cardCount = cards.Count();
             if (cards.Count() != 5)

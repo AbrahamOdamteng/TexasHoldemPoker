@@ -5,10 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Deck;
 using TexasHoldem.Interfaces;
+using TexasHoldem.Utilities;
 namespace TexasHoldem.Hands
 {
     class ThreeOfAkind : BaseHand
     {
+        #region implementation of IPokerHand Memberes
+
+        public override IEnumerable<Card> Cards { get; }
+
+        public override HandRanks HandRank { get { return HandRanks.ThreeOfAkind; } }
+
+        #endregion
+
+        #region CreateInstance
+
+        public static ThreeOfAkind CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
+        {
+            Utils.Validate(communityCards, holeCards);
+            throw new NotImplementedException();
+        }
+
+        internal static ThreeOfAkind CreateInstance(IEnumerable<Card> cards)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
         #region override of Object Methods
         public override bool Equals(object obj)

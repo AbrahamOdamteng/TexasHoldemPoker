@@ -4,12 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Deck;
+using TexasHoldem.Utilities;
 using TexasHoldem.Interfaces;
-
 namespace TexasHoldem.Hands
 {
     class Straight : BaseHand
     {
+        #region implementation of IPokerHand Memberes
+
+        public override IEnumerable<Card> Cards { get; }
+
+        public override HandRanks HandRank { get { return HandRanks.Straight; } }
+
+        #endregion
+
+        #region CreateInstance
+
+        public static Straight CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
+        {
+            Utils.Validate(communityCards, holeCards);
+            throw new NotImplementedException();
+        }
+
+        internal static Straight CreateInstance(IEnumerable<Card> cards)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
         #region override of Object Methods
         public override bool Equals(object obj)

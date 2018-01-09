@@ -77,9 +77,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\CardUnitTests.cs" />
+    <Compile Include="UnitTests\FlushUnitTests.cs" />
     <Compile Include="UnitTests\FourOfAKindUnitTests.cs" />
+    <Compile Include="UnitTests\FullHouseUnitTests.cs" />
+    <Compile Include="UnitTests\HighCardUnitTests.cs" />
+    <Compile Include="UnitTests\OnePairUnitTests.cs" />
     <Compile Include="UnitTests\RoyalFlushUnitTests.cs" />
     <Compile Include="UnitTests\StraightFlushUnitTests.cs" />
+    <Compile Include="UnitTests\StraightUnitTests.cs" />
+    <Compile Include="UnitTests\ThreeOfAkindUnitTests.cs" />
+    <Compile Include="UnitTests\TwoPairsUnitTests.cs" />
     <Compile Include="UnitTests\UtilsUnitTests.cs" />
     <Compile Include="Utilities\Utils.cs" />
   </ItemGroup>
