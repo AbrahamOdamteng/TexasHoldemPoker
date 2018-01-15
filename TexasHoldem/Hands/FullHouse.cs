@@ -18,6 +18,31 @@ namespace TexasHoldem.Hands
 
         #endregion
 
+
+        IEnumerable<Card> Triple { get; set; }
+        IEnumerable<Card> Pair { get; set; }
+
+        FullHouse(IEnumerable<Card> tripleCards, IEnumerable<Card> pairCards)
+        {
+            var tripleCount = tripleCards.Count();
+            if (tripleCount != 3)
+            {
+                var msg = $"Parameter 'triple' should contain 3 elements, containts {tripleCount} elements";
+                throw new ArgumentException(msg);
+            }
+
+            var pairCount = pairCards.Count();
+            if (pairCount != 2)
+            {
+                var msg = $"Parameter 'pair' should contain 2 elements, containts {pairCount} elements";
+                throw new ArgumentException(msg);
+            }
+
+            Triple = tripleCards;
+            Pair = pairCards;
+            Cards = tripleCards.Concat(pairCards).ToArray();
+        }
+
         #region CreateInstance
 
         public static FullHouse CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
@@ -28,7 +53,20 @@ namespace TexasHoldem.Hands
 
         internal static FullHouse CreateInstance(IEnumerable<Card> cards)
         {
-            throw new NotImplementedException();
+            Utils.Validate(cards);
+
+            var rankGroups = cards.GroupBy(c => c.Rank);
+
+            var tripleGroup = rankGroups.Where(g => g.Count() == 3);
+            if (!tripleGroup.Any()) return null;
+
+            var pairGroup = rankGroups.Where(g => g.Count() == 2);
+            if (!pairGroup.Any()) return null;
+
+
+            var triple = tripleGroup.Single();
+            var pair = pairGroup.Single();
+            return new FullHouse(triple, pair);
         }
         #endregion
 

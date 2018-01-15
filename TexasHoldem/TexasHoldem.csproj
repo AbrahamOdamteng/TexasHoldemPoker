@@ -61,6 +61,9 @@
     <Compile Include="Deck\Card.cs" />
     <Compile Include="Deck\CardRanks.cs" />
     <Compile Include="Deck\CardSuits.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\GameStates.cs" />
+    <Compile Include="Game\Player.cs" />
     <Compile Include="Hands\BaseHand.cs" />
     <Compile Include="Hands\Flush.cs" />
     <Compile Include="Hands\FourOfAKind.cs" />

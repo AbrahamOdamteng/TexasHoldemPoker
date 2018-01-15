@@ -64,12 +64,11 @@ namespace TexasHoldem.Hands
 
         internal static StraightFlush CreateInstance(IEnumerable<Card> cards)
         {
-            var newCards = GetHighestStraightFlush(cards);
-            if (newCards.Any())
-            {
-                return new StraightFlush(newCards);
-            }
-            return null;
+            if (!Utils.ConsequtiveCardsNoDuplicates(cards)) return null;
+            if (!Utils.AllSameSuit(cards)) return null;
+            if (Utils.AllRoyal(cards)) return null;//roayl flush, not straight flush
+
+            return new StraightFlush(cards);
         }
 
 

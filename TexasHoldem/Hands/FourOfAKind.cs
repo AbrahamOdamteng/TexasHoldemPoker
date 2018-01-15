@@ -57,13 +57,15 @@ namespace TexasHoldem.Hands
 
         public static FourOfAKind CreateInstance(IEnumerable<Card> cards)
         {
-            var fourOfAKindtuple = GetHighestFourOfAKind(cards);
+            Utils.Validate(cards);
+            var quadsGroups = cards.GroupBy(c => c.Rank).Where(g => g.Count() == 4);
 
-            if (fourOfAKindtuple is null)
-            {
-                return null;
-            }
-            return new FourOfAKind(fourOfAKindtuple.Item1, fourOfAKindtuple.Item2);
+            if (!quadsGroups.Any()) return null;
+            var quads = quadsGroups.First();
+
+            var kicker = cards.Single(c => c.Rank != quads.First().Rank);
+
+            return new FourOfAKind(quads.ToArray(), kicker);
         }
 
         static Tuple<IEnumerable<Card>, Card> GetHighestFourOfAKind(IEnumerable<Card> cards)

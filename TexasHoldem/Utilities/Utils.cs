@@ -22,6 +22,21 @@ namespace TexasHoldem.Utilities
             return cardArray;
         }
 
+        internal static void Validate(IEnumerable<Card> cards)
+        {
+            var count = cards.Count();
+            if(count != 5)
+            {
+                throw new Exception($"A Poker hand can consists of 5 cards, {count} given");
+            }
+
+            var duplicates = cards.GroupBy(c => c).Where(g => g.Count() > 1);
+            if (duplicates.Any())
+            {
+                throw new Exception($"Duplicate cards detected");
+            }
+        }
+
         internal static void Validate(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
         {
             var communityCardCount = communityCards.Count();
@@ -116,6 +131,28 @@ namespace TexasHoldem.Utilities
             }
 
             return Enumerable.Empty<Card>();
+        }
+
+        internal static bool AllSameSuit(IEnumerable<Card> cards)
+        {
+            return !cards.Select(c => c.Suit).Distinct().Skip(1).Any();
+        }
+
+
+        internal static bool AllRoyal(IEnumerable<Card> cards)
+        {
+            return cards.All(c => c.IsRoyal());
+        }
+
+        internal static bool ContainsDuplicateCards(IEnumerable<Card> cards)
+        {
+            return cards.GroupBy(c => c).Where(g => g.Count() > 1).Any();
+        }
+
+        internal static bool ConsequtiveCardsNoDuplicates(IEnumerable<Card> cards)
+        {
+            if (ContainsDuplicateCards(cards)) return false;
+            return !cards.OrderBy(c => c.Rank).Select((c, i) => (int)c.Rank - i).Distinct().Skip(1).Any();
         }
 
         internal static bool IsStraight(IEnumerable<Card> cards)

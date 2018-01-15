@@ -18,6 +18,30 @@ namespace TexasHoldem.Hands
 
         #endregion
 
+        IEnumerable<Card> Pair { get; }
+        IEnumerable<Card> Kickers { get; }
+
+        OnePair(IEnumerable<Card> pairCards, IEnumerable<Card> kickerCards)
+        {
+            var pairCount = pairCards.Count();
+            if (pairCount != 2)
+            {
+                var msg = $"Parameter 'pair' should contain 3 elements, containts {pairCount} elements";
+                throw new ArgumentException(msg);
+            }
+
+            var kickersCount = kickerCards.Count();
+            if (kickersCount != 3)
+            {
+                var msg = $"Parameter 'kickers' should contain 3 elements, containts {kickersCount} elements";
+                throw new ArgumentException(msg);
+            }
+
+            Pair = pairCards;
+            Kickers = kickerCards;
+            Cards = Pair.Concat(Kickers).ToArray();
+        }
+
         #region CreateInstance
 
         public static OnePair CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
@@ -28,7 +52,22 @@ namespace TexasHoldem.Hands
 
         internal static OnePair CreateInstance(IEnumerable<Card> cards)
         {
-            throw new NotImplementedException();
+            Utils.Validate(cards);
+
+            if (Utils.ConsequtiveCardsNoDuplicates(cards)) return null;
+
+            if (Utils.AllSameSuit(cards)) return null;
+
+            var rankGroups = cards.GroupBy(c => c.Rank);
+            if (rankGroups.Any(g => g.Count() > 2)) return null;
+
+            var pairGroups = rankGroups.Where(g => g.Count() == 2);
+
+            if (pairGroups.Count() != 1) return null;
+
+            var pair = pairGroups.Single().ToArray();
+            var kickers = rankGroups.Where(g => g.Count() == 1).SelectMany(g => g).ToArray();
+            return new OnePair(pair, kickers);
         }
         #endregion
 

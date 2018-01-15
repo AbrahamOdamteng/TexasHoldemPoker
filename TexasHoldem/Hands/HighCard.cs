@@ -87,16 +87,12 @@ namespace TexasHoldem.Hands
 
         internal static HighCard CreateInstance(IEnumerable<Card> cards)
         {
-            if(cards.Count() != 2)
-            {
-                throw new ArgumentException("High card consists of only two cards");
-            }
+            Utils.Validate(cards);
+            if (Utils.AllSameSuit(cards)) return null;
+            if (Utils.ConsequtiveCardsNoDuplicates(cards)) return null;
 
-            if(cards.Select(c =>  c.Rank).Distinct().Count() != 2)
-            {
-                throw new ArgumentException("High card consists of only two cards with different ranks");
-
-            }
+            var containsDuplicateRanks = cards.GroupBy(c => c.Rank).Where(g => g.Count() > 1).Any();
+            if (containsDuplicateRanks) return null;
 
             return new HighCard(cards);
         }

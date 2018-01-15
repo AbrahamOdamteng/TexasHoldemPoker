@@ -3,6 +3,7 @@ using System.Linq;
 using TexasHoldem.Deck;
 using TexasHoldem.Interfaces;
 using TexasHoldem.Utilities;
+using System;
 
 namespace TexasHoldem.Hands
 {
@@ -24,6 +25,8 @@ namespace TexasHoldem.Hands
 
         public static RoyalFlush CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
         {
+            throw new NotImplementedException();
+
             Utils.Validate(communityCards, holeCards);
 
             if (GetRoyalFlush(communityCards).Any())
@@ -46,10 +49,14 @@ namespace TexasHoldem.Hands
 
         internal static RoyalFlush CreateInstance(IEnumerable<Card> cards)
         {
-            var rfCards = GetRoyalFlush(cards);
-            if (!rfCards.Any()) return null;
+            Utils.Validate(cards);
 
-            var royalflush = new RoyalFlush(rfCards);
+            if (!cards.All(c => c.IsRoyal())) return null;
+
+            var suit = cards.First().Suit;
+            if (!cards.All(c => c.Suit == suit)) return null;
+           
+            var royalflush = new RoyalFlush(cards);
 
             return royalflush;
         }

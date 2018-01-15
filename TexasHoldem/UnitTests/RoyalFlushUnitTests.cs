@@ -15,34 +15,88 @@ namespace TexasHoldem.UnitTests
     class RoyalFlushUnitTests
     {
         #region Constructor tests
-        [TestCase("AS 6H 5C JD TD", "KS 2H", false, Description = "Test HighCard ")]
-        [TestCase("3C 2D 5C JD TD", "KS KH", false, Description = "Test OnePair")]
-        [TestCase("5C 6D 3C AD AC", "KS KH", false, Description = "Test TwoPair")]
-        [TestCase("5C 7H AC AD AS", "KS 4H", false, Description = "Test ThreeOfAKind")]
-        [TestCase("KH 2C 5C 6D 8S", "9C 7H", false, Description = "Test Straight")]
-        [TestCase("6D 6H 6C TC QC", "2C 4C", false, Description = "Test Flush")]
-        [TestCase("3S 4S 2D TC TS", "2S 2H", false, Description = "Test FullHouse")]
-        [TestCase("AS 4S 2D 2C TS", "2S 2H", false, Description = "Test FoutOfAKind")]
-        [TestCase("9C 3H 4C 6C 8C", "7C 5C", false, Description = "Test StraightFlush")]
-        [TestCase("TD JD QD KD AD", "2H 7C", false, Description = "Test RoyalFlush in community")]
-        [TestCase("TD JD QD KD 9S", "AD 7C", true, Description = "Test RoyalFlush")]
-        [TestCase("TD JD KD", "AD QD", true, Description = "Test RoyalFlush")]
-        public void Test_RoyalFlush_CreateInstance(string communityCardsStr, string holeCardsStr, bool isValid)
+        //Royal Flush==========================================================
+        [TestCase("TC JC QC KC AC", true, Description = "Royal Flush Clubs")]
+        [TestCase("TD QD AD JD KD", true, Description = "Royal Flush Diamonds")]
+        [TestCase("AH KH QH JH TH", true, Description = "Royal Flush Hearts")]
+        [TestCase("TS JS QS KS AS", true, Description = "Royal Flush Spades")]
+        //Straight Flush=======================================================
+        [TestCase("6C 3C 2C 4C 5C", false, Description = "Straight Flush 6 high")]
+        [TestCase("9H TH KH JH QH", false, Description = "Straight Flush King high")]
+        //Four Of a Kind=======================================================
+        [TestCase("4C 4D 4H 4S 5C", false, Description = "Four of a Kind, fours")]
+        [TestCase("AH AD 7D AS AC", false, Description = "Four of a Kind, aces")]
+        //Full House===========================================================
+        [TestCase("3C 3D 3S 6H 6C", false, Description = "Full house, Three over sixes")]
+        [TestCase("KC TS KD TC TD", false, Description = "Full house, Ten over Kings")]
+        //Flush================================================================
+        [TestCase("2C 4C TC 6C 8C", false, Description = "8 High Flush")]
+        [TestCase("AD 3D 5D 2D 4D", true, Description = "Ace high Flush")]
+        [TestCase("3D JD 5D 7D 9D", false, Description = "9 High Flush")]
+        //Straight=============================================================
+        [TestCase("AC KD QH JS TC", false, Description = "Ace high Straight")]
+        [TestCase("2C 4D 6H 5S 3C", false, Description = "six high Straight")]
+        //Three of a kind=======================================================
+        [TestCase("2H 2C 2S 5S 9C ", false, Description = "three of a kind, twos")]
+        [TestCase("QH QD QS 5C 9C ", false, Description = "three of a kind, queens")]
+        //Two Pair===============================================================
+        [TestCase("TC TD JC JD 9C ", false, Description = "Two Pair, Jacks over tens")]
+        [TestCase("7C 9D 7S 9S TC ", false, Description = "Two Pair, nines over sevens")]
+        //One Pair================================================================
+        [TestCase("9C 9H 4C 5C 6C ", false, Description = "One Pair, nines")]
+        [TestCase("KC 9H 4C 5C KD ", false, Description = "One Pair, kings")]
+        //High Card===============================================================
+        [TestCase("KH JH 8S 7D 4S", false, Description = "High Card, king")]
+        [TestCase("QS JD 6C 5H 3C", false, Description = "High Card, Queen")]
+        public void Test_RoyalFlush_CreateInstance(string strCards, bool isValid)
         {
-            var communityCards = Utils.ParseCards(communityCardsStr);
-            var holeCards = Utils.ParseCards(holeCardsStr);
+            var cards = Utils.ParseCards(strCards);
+            var royalFlush = RoyalFlush.CreateInstance(cards);
 
-            var royalFlush = RoyalFlush.CreateInstance(communityCards, holeCards);
             if (isValid)
             {
                 Assert.NotNull(royalFlush);
                 Assert.AreEqual(HandRanks.RoyalFlush, royalFlush.HandRank);
+                CollectionAssert.AreEquivalent(cards, royalFlush.Cards);
             }
             else
             {
                 Assert.IsNull(royalFlush);
             }
         }
+
+        //[TestCase("AS 6H 5C JD TD", "KS 2H", false, Description = "Test HighCard ")]
+        //[TestCase("3C 2D 5C JD TD", "KS KH", false, Description = "Test OnePair")]
+        //[TestCase("5C 6D 3C AD AC", "KS KH", false, Description = "Test TwoPair")]
+        //[TestCase("5C 7H AC AD AS", "KS 4H", false, Description = "Test ThreeOfAKind")]
+        //[TestCase("KH 2C 5C 6D 8S", "9C 7H", false, Description = "Test Straight")]
+        //[TestCase("6D 6H 6C TC QC", "2C 4C", false, Description = "Test Flush")]
+        //[TestCase("3S 4S 2D TC TS", "2S 2H", false, Description = "Test FullHouse")]
+        //[TestCase("AS 4S 2D 2C TS", "2S 2H", false, Description = "Test FoutOfAKind")]
+        //[TestCase("9C 3H 4C 6C 8C", "7C 5C", false, Description = "Test StraightFlush")]
+        //[TestCase("TD JD QD KD AD", "2H 7C", false, Description = "Test RoyalFlush in community")]
+        //[TestCase("TD JD QD KD 9S", "AD 7C", true, Description = "Test RoyalFlush")]
+        //[TestCase("TD JD KD", "AD QD", true, Description = "Test RoyalFlush")]
+        //public void Test_RoyalFlush_CreateInstance(string communityCardsStr, string holeCardsStr, bool isValid)
+        //{
+        //    Assert.Fail();
+        //    var communityCards = Utils.ParseCards(communityCardsStr);
+        //    var holeCards = Utils.ParseCards(holeCardsStr);
+
+        //    var royalFlush = RoyalFlush.CreateInstance(communityCards, holeCards);
+        //    if (isValid)
+        //    {
+        //        Assert.NotNull(royalFlush);
+        //        Assert.AreEqual(HandRanks.RoyalFlush, royalFlush.HandRank);
+        //    }
+        //    else
+        //    {
+        //        Assert.IsNull(royalFlush);
+        //    }
+        //}
+
+
+
 
         [Test]
         public void Test_RoyalFlush_CreateInstance_Exception()

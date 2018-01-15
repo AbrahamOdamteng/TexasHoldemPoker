@@ -18,6 +18,11 @@ namespace TexasHoldem.Hands
 
         #endregion
 
+        Flush(IEnumerable<Card> cards)
+        {
+            Cards = cards;
+        }
+
         #region CreateInstance
 
         public static Flush CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
@@ -28,7 +33,17 @@ namespace TexasHoldem.Hands
 
         internal static Flush CreateInstance(IEnumerable<Card> cards)
         {
-            throw new NotImplementedException();
+            Utils.Validate(cards);
+            if (!Utils.AllSameSuit(cards)) return null;
+            if (Utils.ConsequtiveCardsNoDuplicates(cards)) return null;//cards represent a straight flush
+
+            var fullHouse = FullHouse.CreateInstance(cards);
+            if (!(fullHouse is null)) return null;
+
+            var fourOfAKind = FourOfAKind.CreateInstance(cards);
+            if (!(fourOfAKind is null)) return null;
+
+            return new Flush(cards);
         }
         #endregion
 

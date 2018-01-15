@@ -20,6 +20,29 @@ namespace TexasHoldem.Hands
 
         #region CreateInstance
 
+        IEnumerable<Card> Triple { get; } 
+        IEnumerable<Card> Kickers { get; }
+
+        ThreeOfAkind(IEnumerable<Card> tripleCards, IEnumerable<Card> kickers)
+        {
+            var tripleCount = tripleCards.Count();
+            if (tripleCount != 3)
+            {
+                var msg = $"Parameter 'triple' should contain 3 elements, containts {tripleCount} elements";
+                throw new ArgumentException(msg);
+            }
+
+            var kickersCount = kickers.Count();
+            if (kickersCount != 2)
+            {
+                var msg = $"Parameter 'kickers' should contain 2 elements, containts {kickersCount} elements";
+                throw new ArgumentException(msg);
+            }
+            Triple = tripleCards;
+            Kickers = kickers;
+            Cards = tripleCards.Concat(kickers).ToArray();
+        }
+
         public static ThreeOfAkind CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
         {
             Utils.Validate(communityCards, holeCards);
@@ -28,7 +51,21 @@ namespace TexasHoldem.Hands
 
         internal static ThreeOfAkind CreateInstance(IEnumerable<Card> cards)
         {
-            throw new NotImplementedException();
+            Utils.Validate(cards);
+            var allGroups = cards.GroupBy(c => c.Rank);
+            var sizeThreeGroup = allGroups.Where(g => g.Count() == 3);
+
+            if (sizeThreeGroup.Count() != 1) return null;
+
+            var tripleGroup = sizeThreeGroup.Single();
+
+            if (tripleGroup.Count() != 3) return null;
+
+            var kickers = allGroups.Where(g => g.Count() == 1).SelectMany(g => g);
+
+            if (!kickers.Any()) return null;
+
+            return new ThreeOfAkind(tripleGroup.ToArray(), kickers);
         }
         #endregion
 

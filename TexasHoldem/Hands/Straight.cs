@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TexasHoldem.Deck;
-using TexasHoldem.Utilities;
 using TexasHoldem.Interfaces;
+using TexasHoldem.Utilities;
 namespace TexasHoldem.Hands
 {
     class Straight : BaseHand
@@ -18,6 +15,11 @@ namespace TexasHoldem.Hands
 
         #endregion
 
+        Straight(IEnumerable<Card> cards)
+        {
+            Cards = cards;
+        }
+
         #region CreateInstance
 
         public static Straight CreateInstance(IEnumerable<Card> communityCards, IEnumerable<Card> holeCards)
@@ -28,7 +30,13 @@ namespace TexasHoldem.Hands
 
         internal static Straight CreateInstance(IEnumerable<Card> cards)
         {
-            throw new NotImplementedException();
+            Utils.Validate(cards);
+
+            if (!Utils.ConsequtiveCardsNoDuplicates(cards)) return null;
+
+            if (Utils.AllSameSuit(cards)) return null;//Cards represent a straight flush
+
+            return new Straight(cards);
         }
         #endregion
 
