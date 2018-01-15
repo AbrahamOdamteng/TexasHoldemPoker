@@ -44,17 +44,17 @@ namespace TexasHoldem.UnitTests
         public void Test_OnePair_CreateInstance(string strCards, bool isValid)
         {
             var cards = Utils.ParseCards(strCards);
-            var OnePair = Hands.OnePair.CreateInstance(cards);
+            var onePair = OnePair.CreateInstance(cards);
 
             if (isValid)
             {
-                Assert.NotNull(OnePair);
-                Assert.AreEqual(HandRanks.OnePair, OnePair.HandRank);
-                CollectionAssert.AreEquivalent(cards, OnePair.Cards);
+                Assert.NotNull(onePair);
+                Assert.AreEqual(HandRanks.OnePair, onePair.HandRank);
+                CollectionAssert.AreEquivalent(cards, onePair.Cards);
             }
             else
             {
-                Assert.IsNull(OnePair);
+                Assert.IsNull(onePair);
             }
         }
 
@@ -82,23 +82,41 @@ namespace TexasHoldem.UnitTests
         //}
 
 
-        [TestCase("2D 3D 4D 5D 6D", "2D 3D 4D 5D 6D", true)]
-        [TestCase("2D 3D 4D 5D 6D", "3D 4D 5D 6D 7D", false)]
+        [TestCase("7D 7C 4D 5D 6D", "7D 7C 4D 5D 6D", true)]
+        [TestCase("TD 3D 4D 5D TC", "AC 5S 3H 2D AH", false)]
         public void Test_OnePair_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
 
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
+            var OnePairOne = OnePair.CreateInstance(cardsA);
+            var OnePairTwo = OnePair.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, straightFlushOne.Equals(straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne.Equals((object)straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne == straightFlushTwo);
-            Assert.AreEqual(!areEqual, straightFlushOne != straightFlushTwo);
+            Assert.NotNull(OnePairOne);
+            Assert.NotNull(OnePairTwo);
+
+            Assert.AreEqual(areEqual, OnePairOne.Equals(OnePairTwo));
+            Assert.AreEqual(areEqual, OnePairOne.Equals((object)OnePairTwo));
+            Assert.AreEqual(areEqual, OnePairOne == OnePairTwo);
+            Assert.AreEqual(!areEqual, OnePairOne != OnePairTwo);
         }
 
+        [Test]
+        public void Test_OnePair_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("4H AH AC 7D 8S");
+            var onePair = OnePair.CreateInstance(cards);
+
+            Assert.False(onePair.Equals(null));
+
+            Assert.True((OnePair)null == (OnePair)null);
+            Assert.False((OnePair)null == onePair);
+            Assert.False(onePair == (OnePair)null);
+
+            Assert.False((OnePair)null != (OnePair)null);
+            Assert.True((OnePair)null != onePair);
+            Assert.True(onePair != (OnePair)null);
+        }
 
         [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
         [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
@@ -108,55 +126,36 @@ namespace TexasHoldem.UnitTests
             throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
+            var onePairOne = OnePair.CreateInstance(cardsA);
+            var straightFlushTwo = OnePair.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, straightFlushOne.CompareTo(straightFlushTwo));
+            Assert.AreEqual(comp, onePairOne.CompareTo(straightFlushTwo));
 
             if (comp == 0)
             {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
+                Assert.IsTrue(onePairOne >= straightFlushTwo);
+                Assert.IsTrue(onePairOne <= straightFlushTwo);
+                Assert.IsFalse(onePairOne > straightFlushTwo);
+                Assert.IsFalse(onePairOne < straightFlushTwo);
             }
             else if (comp == 1)
             {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne <= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
+                Assert.IsTrue(onePairOne >= straightFlushTwo);
+                Assert.IsFalse(onePairOne <= straightFlushTwo);
+                Assert.IsTrue(onePairOne > straightFlushTwo);
+                Assert.IsFalse(onePairOne < straightFlushTwo);
             }
             else if (comp == -1)
             {
-                Assert.IsFalse(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsTrue(straightFlushOne < straightFlushTwo);
+                Assert.IsFalse(onePairOne >= straightFlushTwo);
+                Assert.IsTrue(onePairOne <= straightFlushTwo);
+                Assert.IsFalse(onePairOne > straightFlushTwo);
+                Assert.IsTrue(onePairOne < straightFlushTwo);
             }
             else
             {
                 throw new ArgumentException("the value of comp can only be -1,0,1");
             }
-        }
-
-        [Test]
-        public void Test_OnePair_EqualityOperators_ForNull()
-        {
-            throw new NotImplementedException();
-
-            var cards = Utils.ParseCards("4H 5H 6H 7H 8H");
-            var straintFlush = StraightFlush.CreateInstance(cards);
-
-            Assert.False(straintFlush.Equals(null));
-
-            Assert.True((OnePair)null == (OnePair)null);
-            Assert.False((OnePair)null == straintFlush);
-            Assert.False(straintFlush == (OnePair)null);
-
-            Assert.False((OnePair)null != (OnePair)null);
-            Assert.True((OnePair)null != straintFlush);
-            Assert.True(straintFlush != (OnePair)null);
         }
     }
 }

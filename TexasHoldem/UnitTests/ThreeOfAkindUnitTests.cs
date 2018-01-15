@@ -82,23 +82,41 @@ namespace TexasHoldem.UnitTests
         //}
 
 
-        [TestCase("2D 3D 4D 5D 6D", "2D 3D 4D 5D 6D", true)]
-        [TestCase("2D 3D 4D 5D 6D", "3D 4D 5D 6D 7D", false)]
+        [TestCase("2D 2C 2S 5D 6D", "2D 2C 2S 5D 6D", true)]
+        [TestCase("QH QD QC 5D 6D", "3D 4D 3C 6D 3H", false)]
         public void Test_ThreeOfAkind_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
 
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
+            var threeOfAKindOne = ThreeOfAkind.CreateInstance(cardsA);
+            var threeOfAKindTwo = ThreeOfAkind.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, straightFlushOne.Equals(straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne.Equals((object)straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne == straightFlushTwo);
-            Assert.AreEqual(!areEqual, straightFlushOne != straightFlushTwo);
+            Assert.NotNull(threeOfAKindOne);
+            Assert.NotNull(threeOfAKindTwo);
+
+            Assert.AreEqual(areEqual, threeOfAKindOne.Equals(threeOfAKindTwo));
+            Assert.AreEqual(areEqual, threeOfAKindOne.Equals((object)threeOfAKindTwo));
+            Assert.AreEqual(areEqual, threeOfAKindOne == threeOfAKindTwo);
+            Assert.AreEqual(!areEqual, threeOfAKindOne != threeOfAKindTwo);
         }
 
+        [Test]
+        public void Test_ThreeOfAkind_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("2D 2C 2S 5D 6D");
+            var threeOfAKind = ThreeOfAkind.CreateInstance(cards);
+
+            Assert.False(threeOfAKind.Equals(null));
+
+            Assert.True((ThreeOfAkind)null == (ThreeOfAkind)null);
+            Assert.False((ThreeOfAkind)null == threeOfAKind);
+            Assert.False(threeOfAKind == (ThreeOfAkind)null);
+
+            Assert.False((ThreeOfAkind)null != (ThreeOfAkind)null);
+            Assert.True((ThreeOfAkind)null != threeOfAKind);
+            Assert.True(threeOfAKind != (ThreeOfAkind)null);
+        }
 
         [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
         [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
@@ -140,23 +158,6 @@ namespace TexasHoldem.UnitTests
             }
         }
 
-        [Test]
-        public void Test_ThreeOfAkind_EqualityOperators_ForNull()
-        {
-            throw new NotImplementedException();
 
-            var cards = Utils.ParseCards("4H 5H 6H 7H 8H");
-            var straintFlush = StraightFlush.CreateInstance(cards);
-
-            Assert.False(straintFlush.Equals(null));
-
-            Assert.True((ThreeOfAkind)null == (ThreeOfAkind)null);
-            Assert.False((ThreeOfAkind)null == straintFlush);
-            Assert.False(straintFlush == (ThreeOfAkind)null);
-
-            Assert.False((ThreeOfAkind)null != (ThreeOfAkind)null);
-            Assert.True((ThreeOfAkind)null != straintFlush);
-            Assert.True(straintFlush != (ThreeOfAkind)null);
-        }
     }
 }

@@ -72,6 +72,7 @@ namespace TexasHoldem.Hands
         #region override of Object Methods
         public override bool Equals(object obj)
         {
+
             return base.Equals(obj);
         }
 
@@ -84,6 +85,11 @@ namespace TexasHoldem.Hands
         #region Implemenation of IComparable
         public override int CompareTo(IPokerHand other)
         {
+            if (other is null) return 1;
+            if (HandRank > other.HandRank) return 1;
+            if (HandRank < other.HandRank) return -1;
+           
+
             throw new NotImplementedException();
         }
         #endregion

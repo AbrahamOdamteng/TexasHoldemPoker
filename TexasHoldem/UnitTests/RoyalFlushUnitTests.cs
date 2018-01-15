@@ -113,21 +113,39 @@ namespace TexasHoldem.UnitTests
 
         #region Test Equality Operators
 
-
-        [TestCase("TC JC QC KC AC", "TC JC QC KC AC", true, Description ="A RoyalFlush is equal to another Royalflush")]
-        [TestCase("TC JC QC KC AC", "AC KC QC JC TC", true, Description = "A RoyalFlush is equal to another Royalflush")]
-        [TestCase("TC JC QC KC AC", "TS JS QS KS AS", false, Description = "A RoyalFlush is NOT equal to another Royalflush of a different suit")]
-        public void Test_RoyalFlush_EqualityOperators(string royalFlushA , string royalFlushB, bool areEqual)
+        [TestCase("TC JC QC KC AC", "TC JC QC KC AC", true)]
+        [TestCase("TC JC QC KC AC", "TS JS QS KS AS", false)]
+        public void Test_RoyalFlush_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
-            var cardsA = Utils.ParseCards(royalFlushA);
-            var cardsB = Utils.ParseCards(royalFlushB);
-            var royalA = RoyalFlush.CreateInstance(cardsA);
-            var royalB = RoyalFlush.CreateInstance(cardsB);
+            var cardsA = Utils.ParseCards(strInputA);
+            var cardsB = Utils.ParseCards(strInputB);
+            var royalFlushOne = RoyalFlush.CreateInstance(cardsA);
+            var royalFlushTwo = RoyalFlush.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, royalA.Equals(royalB));
-            Assert.AreEqual(areEqual, royalA.Equals((object)royalB));
-            Assert.AreEqual(areEqual, royalA == royalB);
-            Assert.AreEqual(!areEqual, royalA != royalB);
+            Assert.NotNull(royalFlushOne);
+            Assert.NotNull(royalFlushTwo);
+
+            Assert.AreEqual(areEqual, royalFlushOne.Equals(royalFlushTwo));
+            Assert.AreEqual(areEqual, royalFlushOne.Equals((object)royalFlushTwo));
+            Assert.AreEqual(areEqual, royalFlushOne == royalFlushTwo);
+            Assert.AreEqual(!areEqual, royalFlushOne != royalFlushTwo);
+        }
+
+        [Test]
+        public void Test_RoyalFlush_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("TH JH KH QH AH");
+            var royalflush = RoyalFlush.CreateInstance(cards);
+
+            Assert.False(royalflush.Equals(null));
+
+            Assert.True((RoyalFlush)null == (RoyalFlush)null);
+            Assert.False((RoyalFlush)null == royalflush);
+            Assert.False(royalflush == (RoyalFlush)null);
+
+            Assert.False((RoyalFlush)null != (RoyalFlush)null);
+            Assert.True((RoyalFlush)null != royalflush);
+            Assert.True(royalflush != (RoyalFlush)null);
         }
 
         [TestCase("TC JC QC KC AC", "TC JC QC KC AC", 0, Description = "A RoyalFlush is equal to another Royalflush")]
@@ -168,28 +186,6 @@ namespace TexasHoldem.UnitTests
             }
         }
 
-        [Test]
-        public void Test_RoyalFlush_EqualityOperators_ForNull()
-        {
-
-            var cards = Utils.ParseCards("TH JH KH QH AH");
-            var royalflush = RoyalFlush.CreateInstance(cards);
-
-            Assert.False(royalflush.Equals(null));
-
-            Assert.True((RoyalFlush)null == (RoyalFlush)null);
-            Assert.False((RoyalFlush)null == royalflush);
-            Assert.False(royalflush == (RoyalFlush)null);
-
-            Assert.False((RoyalFlush) null != (RoyalFlush) null);
-            Assert.True((RoyalFlush)null != royalflush);
-            Assert.True(royalflush != (RoyalFlush)null);
-        }
-
         #endregion
-
-
-
-
     }
 }

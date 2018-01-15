@@ -82,23 +82,39 @@ namespace TexasHoldem.UnitTests
         //}
 
 
-        [TestCase("2D 3D 4D 5D 6D", "2D 3D 4D 5D 6D", true)]
-        [TestCase("2D 3D 4D 5D 6D", "3D 4D 5D 6D 7D", false)]
+        [TestCase("2D 4D 6D 8D TD", "2D 4D 6D 8D TD", true)]
+        [TestCase("3D 5D 7D 9D JD", "2D 4D 6D 8D TD", false)]
         public void Test_Flush_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
 
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
+            var flushOne = Flush.CreateInstance(cardsA);
+            var flushTwo = Flush.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, straightFlushOne.Equals(straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne.Equals((object)straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne == straightFlushTwo);
-            Assert.AreEqual(!areEqual, straightFlushOne != straightFlushTwo);
+            Assert.AreEqual(areEqual, flushOne.Equals(flushTwo));
+            Assert.AreEqual(areEqual, flushOne.Equals((object)flushTwo));
+            Assert.AreEqual(areEqual, flushOne == flushTwo);
+            Assert.AreEqual(!areEqual, flushOne != flushTwo);
         }
 
+
+        [Test]
+        public void Test_Flush_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("3D 5D 7D 9D JD");
+            var flush = Flush.CreateInstance(cards);
+
+            Assert.False(flush.Equals(null));
+
+            Assert.True((Flush)null == (Flush)null);
+            Assert.False((Flush)null == flush);
+            Assert.False(flush == (Flush)null);
+
+            Assert.False((Flush)null != (Flush)null);
+            Assert.True((Flush)null != flush);
+            Assert.True(flush != (Flush)null);
+        }
 
         [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
         [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
@@ -138,25 +154,6 @@ namespace TexasHoldem.UnitTests
             {
                 throw new ArgumentException("the value of comp can only be -1,0,1");
             }
-        }
-
-        [Test]
-        public void Test_Flush_EqualityOperators_ForNull()
-        {
-            throw new NotImplementedException();
-
-            var cards = Utils.ParseCards("4H 5H 6H 7H 8H");
-            var straintFlush = StraightFlush.CreateInstance(cards);
-
-            Assert.False(straintFlush.Equals(null));
-
-            Assert.True((Flush)null == (Flush)null);
-            Assert.False((Flush)null == straintFlush);
-            Assert.False(straintFlush == (Flush)null);
-
-            Assert.False((Flush)null != (Flush)null);
-            Assert.True((Flush)null != straintFlush);
-            Assert.True(straintFlush != (Flush)null);
         }
     }
 }

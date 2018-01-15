@@ -108,12 +108,31 @@ namespace TexasHoldem.UnitTests
             var straightFlushOne = StraightFlush.CreateInstance(cardsA);
             var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
 
+            Assert.NotNull(straightFlushOne);
+            Assert.NotNull(straightFlushTwo);
+
             Assert.AreEqual(areEqual, straightFlushOne.Equals(straightFlushTwo));
             Assert.AreEqual(areEqual, straightFlushOne.Equals((object)straightFlushTwo));
             Assert.AreEqual(areEqual, straightFlushOne == straightFlushTwo);
             Assert.AreEqual(!areEqual, straightFlushOne != straightFlushTwo);
+        }
 
-            
+        [Test]
+        public void Test_StraightFlush_EqualityOperators_ForNull()
+        {
+
+            var cards = Utils.ParseCards("4H 5H 6H 7H 8H");
+            var straintFlush = StraightFlush.CreateInstance(cards);
+
+            Assert.False(straintFlush.Equals(null));
+
+            Assert.True((StraightFlush)null == (StraightFlush)null);
+            Assert.False((StraightFlush)null == straintFlush);
+            Assert.False(straintFlush == (StraightFlush)null);
+
+            Assert.False((StraightFlush)null != (StraightFlush)null);
+            Assert.True((StraightFlush)null != straintFlush);
+            Assert.True(straintFlush != (StraightFlush)null);
         }
 
         [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
@@ -156,22 +175,6 @@ namespace TexasHoldem.UnitTests
         }
 
 
-        [Test]
-        public void Test_StraightFlush_EqualityOperators_ForNull()
-        {
 
-            var cards = Utils.ParseCards("4H 5H 6H 7H 8H");
-            var straintFlush = StraightFlush.CreateInstance(cards);
-
-            Assert.False(straintFlush.Equals(null));
-
-            Assert.True((StraightFlush)null == (StraightFlush)null);
-            Assert.False((StraightFlush)null == straintFlush);
-            Assert.False(straintFlush == (StraightFlush)null);
-
-            Assert.False((StraightFlush)null != (StraightFlush)null);
-            Assert.True((StraightFlush)null != straintFlush);
-            Assert.True(straintFlush != (StraightFlush)null);
-        }
     }
 }

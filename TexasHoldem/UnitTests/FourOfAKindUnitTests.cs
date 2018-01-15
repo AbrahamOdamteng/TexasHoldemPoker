@@ -84,8 +84,8 @@ namespace TexasHoldem.UnitTests
         //    }
         //}
 
-        [TestCase("5C 5C 5C 5C 9C", "5C 5C 5C 5C 9C", true)]
-        [TestCase("5C 5C 5C 5C 9C", "6C 6C 6C 6C 9C", false)]
+        [TestCase("5C 5D 5H 5S 9C", "5C 5D 5H 5S 9C", true)]
+        [TestCase("7C 7D 7H 7S AC", "KS KC KD KH TC", false)]
         public void Test_FourOfAKind_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
             var cardsA = Utils.ParseCards(strInputA);
@@ -94,10 +94,30 @@ namespace TexasHoldem.UnitTests
             var FourOfAKindOne = FourOfAKind.CreateInstance(cardsA);
             var FourOfAKindTwo = FourOfAKind.CreateInstance(cardsB);
 
+            Assert.NotNull(FourOfAKindOne);
+            Assert.NotNull(FourOfAKindTwo);
+
             Assert.AreEqual(areEqual, FourOfAKindOne.Equals(FourOfAKindTwo));
             Assert.AreEqual(areEqual, FourOfAKindOne.Equals((object)FourOfAKindTwo));
             Assert.AreEqual(areEqual, FourOfAKindOne == FourOfAKindTwo);
             Assert.AreEqual(!areEqual, FourOfAKindOne != FourOfAKindTwo);
+        }
+
+        [Test]
+        public void Test_FourOfAKind_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("7H 7C 7D 7S 8H");
+            var fourOfAKind = FourOfAKind.CreateInstance(cards);
+
+            Assert.False(fourOfAKind.Equals(null));
+
+            Assert.True((FourOfAKind)null == (FourOfAKind)null);
+            Assert.False((FourOfAKind)null == fourOfAKind);
+            Assert.False(fourOfAKind == (FourOfAKind)null);
+
+            Assert.False((FourOfAKind)null != (FourOfAKind)null);
+            Assert.True((FourOfAKind)null != fourOfAKind);
+            Assert.True(fourOfAKind != (FourOfAKind)null);
         }
 
         [TestCase("7S 7S 7S 7S 8H", "7S 7S 7S 7S 8H", 0, Description = "Four-of-a-kind comparable zero test")]
@@ -139,25 +159,6 @@ namespace TexasHoldem.UnitTests
             {
                 throw new ArgumentException("the value of comp can only be -1,0,1");
             }
-        }
-
-
-
-        [Test]
-        public void Test_FourOfAKind_EqualityOperators_ForNull()
-        {
-            var cards = Utils.ParseCards("7S 7S 7S 7S 8H");
-            var straintFlush = FourOfAKind.CreateInstance(cards);
-
-            Assert.False(straintFlush.Equals(null));
-
-            Assert.True((FourOfAKind)null == (FourOfAKind)null);
-            Assert.False((FourOfAKind)null == straintFlush);
-            Assert.False(straintFlush == (FourOfAKind)null);
-
-            Assert.False((FourOfAKind)null != (FourOfAKind)null);
-            Assert.True((FourOfAKind)null != straintFlush);
-            Assert.True(straintFlush != (FourOfAKind)null);
         }
     }
 }

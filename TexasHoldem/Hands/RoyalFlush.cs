@@ -126,9 +126,11 @@ namespace TexasHoldem.Hands
 
         public override int CompareTo(IPokerHand other)
         {
-            if (other == null) return 1;
-            if (other.HandRank == HandRanks.RoyalFlush) return 0;
-            return -1;
+            if (other is null) return 1;
+            if (HandRank > other.HandRank) return 1;
+            if (HandRank < other.HandRank) return -1;
+
+            return 0;
         }
 
         public static bool operator > (RoyalFlush royalFlush, IPokerHand pokerHandB)

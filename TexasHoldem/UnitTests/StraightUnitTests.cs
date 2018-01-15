@@ -81,21 +81,40 @@ namespace TexasHoldem.UnitTests
         //}
 
 
-        [TestCase("2D 3D 4D 5D 6D", "2D 3D 4D 5D 6D", true)]
-        [TestCase("2D 3D 4D 5D 6D", "3D 4D 5D 6D 7D", false)]
+        [TestCase("2D 3C 4H 5S 6C", "2D 3C 4H 5S 6C", true)]
+        [TestCase("7C 8S 9H TC JD", "4C 5S 6H 7D 8S", false)]
         public void Test_Straigh_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
 
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
+            var straightOne = Straight.CreateInstance(cardsA);
+            var straightTwo = Straight.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, straightFlushOne.Equals(straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne.Equals((object)straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne == straightFlushTwo);
-            Assert.AreEqual(!areEqual, straightFlushOne != straightFlushTwo);
+            Assert.NotNull(straightOne);
+            Assert.NotNull(straightTwo);
+
+            Assert.AreEqual(areEqual, straightOne.Equals(straightTwo));
+            Assert.AreEqual(areEqual, straightOne.Equals((object)straightTwo));
+            Assert.AreEqual(areEqual, straightOne == straightTwo);
+            Assert.AreEqual(!areEqual, straightOne != straightTwo);
+        }
+
+        [Test]
+        public void Test_Straigh_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("2D 3C 4H 5S 6C");
+            var straight = Straight.CreateInstance(cards);
+
+            Assert.False(straight.Equals(null));
+
+            Assert.True((Straight)null == (Straight)null);
+            Assert.False((Straight)null == straight);
+            Assert.False(straight == (Straight)null);
+
+            Assert.False((Straight)null != (Straight)null);
+            Assert.True((Straight)null != straight);
+            Assert.True(straight != (Straight)null);
         }
 
 
@@ -139,23 +158,6 @@ namespace TexasHoldem.UnitTests
             }
         }
 
-        [Test]
-        public void Test_Straigh_EqualityOperators_ForNull()
-        {
-            throw new NotImplementedException();
 
-            var cards = Utils.ParseCards("4H 5H 6H 7H 8H");
-            var straintFlush = StraightFlush.CreateInstance(cards);
-
-            Assert.False(straintFlush.Equals(null));
-
-            Assert.True((Straight)null == (Straight)null);
-            Assert.False((Straight)null == straintFlush);
-            Assert.False(straintFlush == (Straight)null);
-
-            Assert.False((Straight)null != (Straight)null);
-            Assert.True((Straight)null != straintFlush);
-            Assert.True(straintFlush != (Straight)null);
-        }
     }
 }

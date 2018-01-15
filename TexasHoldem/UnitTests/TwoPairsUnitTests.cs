@@ -82,21 +82,40 @@ namespace TexasHoldem.UnitTests
         //}
 
 
-        [TestCase("2D 3D 4D 5D 6D", "2D 3D 4D 5D 6D", true)]
-        [TestCase("2D 3D 4D 5D 6D", "3D 4D 5D 6D 7D", false)]
+        [TestCase("8D 8C 5C 5H 2S", "8D 8C 5C 5H 2S", true)]
+        [TestCase("QS QD 5H 5C KS", "AS AD 3S 3H JC", false)]
         public void Test_TwoPairs_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
 
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
+            var twoPairOne = TwoPairs.CreateInstance(cardsA);
+            var twoPairTwo = TwoPairs.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, straightFlushOne.Equals(straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne.Equals((object)straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne == straightFlushTwo);
-            Assert.AreEqual(!areEqual, straightFlushOne != straightFlushTwo);
+            Assert.NotNull(twoPairOne);
+            Assert.NotNull(twoPairTwo);
+
+            Assert.AreEqual(areEqual, twoPairOne.Equals(twoPairTwo));
+            Assert.AreEqual(areEqual, twoPairOne.Equals((object)twoPairTwo));
+            Assert.AreEqual(areEqual, twoPairOne == twoPairTwo);
+            Assert.AreEqual(!areEqual, twoPairOne != twoPairTwo);
+        }
+
+        [Test]
+        public void Test_TwoPairs_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("4H 4D 6H 6S 8H");
+            var twoPairs = TwoPairs.CreateInstance(cards);
+
+            Assert.False(twoPairs.Equals(null));
+
+            Assert.True((TwoPairs)null == (TwoPairs)null);
+            Assert.False((TwoPairs)null == twoPairs);
+            Assert.False(twoPairs == (TwoPairs)null);
+
+            Assert.False((TwoPairs)null != (TwoPairs)null);
+            Assert.True((TwoPairs)null != twoPairs);
+            Assert.True(twoPairs != (TwoPairs)null);
         }
 
 
@@ -140,23 +159,6 @@ namespace TexasHoldem.UnitTests
             }
         }
 
-        [Test]
-        public void Test_TwoPairs_EqualityOperators_ForNull()
-        {
-            throw new NotImplementedException();
 
-            var cards = Utils.ParseCards("4H 5H 6H 7H 8H");
-            var straintFlush = StraightFlush.CreateInstance(cards);
-
-            Assert.False(straintFlush.Equals(null));
-
-            Assert.True((TwoPairs)null == (TwoPairs)null);
-            Assert.False((TwoPairs)null == straintFlush);
-            Assert.False(straintFlush == (TwoPairs)null);
-
-            Assert.False((TwoPairs)null != (TwoPairs)null);
-            Assert.True((TwoPairs)null != straintFlush);
-            Assert.True(straintFlush != (TwoPairs)null);
-        }
     }
 }

@@ -90,8 +90,8 @@ namespace TexasHoldem.UnitTests
         //}
 
         
-        [TestCase("2D 3D", "2D 3D", true)]
-        [TestCase("2D 4D", "3D 4D", false)]
+        [TestCase("5D 8C 2S KD JH", "5D 8C 2S KD JH", true)]
+        [TestCase("7S 3H 5D KC 2C", "4C 6S 8D 2H AH", false)]
         public void Test_HighCard_EqualityOperators(string strInputA, string strInputB, bool areEqual)
         {
             var cardsA = Utils.ParseCards(strInputA);
@@ -100,12 +100,32 @@ namespace TexasHoldem.UnitTests
             var highCardOne = HighCard.CreateInstance(cardsA);
             var highCardTwo = HighCard.CreateInstance(cardsB);
 
+            Assert.NotNull(highCardOne);
+            Assert.NotNull(highCardTwo);
+
             Assert.AreEqual(areEqual, highCardOne.Equals(highCardTwo));
             Assert.AreEqual(areEqual, highCardOne.Equals((object)highCardTwo));
             Assert.AreEqual(areEqual, highCardOne == highCardTwo);
             Assert.AreEqual(!areEqual, highCardOne != highCardTwo);
         }
 
+
+        [Test]
+        public void Test_HighCard_EqualityOperators_ForNull()
+        {
+            var cards = Utils.ParseCards("7S 3H 5D KC 2C");
+            var highCard = HighCard.CreateInstance(cards);
+
+            Assert.False(highCard.Equals(null));
+
+            Assert.True((HighCard)null == (HighCard)null);
+            Assert.False((HighCard)null == highCard);
+            Assert.False(highCard == (HighCard)null);
+
+            Assert.False((HighCard)null != (HighCard)null);
+            Assert.True((HighCard)null != highCard);
+            Assert.True(highCard != (HighCard)null);
+        }
 
         [TestCase("2H 3H", "2D 3D", 0)]
         [TestCase("2H 3H", "3D 4D", -1)]
@@ -148,21 +168,6 @@ namespace TexasHoldem.UnitTests
             }
         }
 
-        [Test]
-        public void Test_HighCard_EqualityOperators_ForNull()
-        {
-            var cards = Utils.ParseCards("4H 5H");
-            var highCard = HighCard.CreateInstance(cards);
 
-            Assert.False(highCard.Equals(null));
-
-            Assert.True((HighCard)null == (HighCard)null);
-            Assert.False((HighCard)null == highCard);
-            Assert.False(highCard == (HighCard)null);
-
-            Assert.False((HighCard)null != (HighCard)null);
-            Assert.True((HighCard)null != highCard);
-            Assert.True(highCard != (HighCard)null);
-        }
     }
 }
