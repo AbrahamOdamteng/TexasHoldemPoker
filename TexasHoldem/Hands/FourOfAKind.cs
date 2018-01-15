@@ -114,50 +114,5 @@ namespace TexasHoldem.Hands
             return 0;
         }
         #endregion
-
-
-
-        #region operator overloading
-
-        public static bool operator ==(FourOfAKind fourOfAKind, IPokerHand pokerHand)
-        {
-            if (fourOfAKind is null)
-            {
-                return pokerHand is null ? true : false;
-            }
-            return fourOfAKind.Equals(pokerHand);
-        }
-
-        public static bool operator !=(FourOfAKind fourOfAKind, IPokerHand pokerHand)
-        {
-            if (fourOfAKind is null)
-            {
-                return pokerHand is null ? false : true;
-            }
-            return !fourOfAKind.Equals(pokerHand);
-        }
-
-        public static bool operator >(FourOfAKind fourOfAKind, IPokerHand pokerHand)
-        {
-            return fourOfAKind.CompareTo(pokerHand) == 1;
-        }
-
-        public static bool operator >=(FourOfAKind fourOfAKind, IPokerHand pokerHand)
-        {
-            var res = fourOfAKind.CompareTo(pokerHand);
-            return res == 0 || res == 1;
-        }
-
-        public static bool operator <(FourOfAKind fourOfAKind, IPokerHand pokerHand)
-        {
-            return fourOfAKind.CompareTo(pokerHand) == -1;
-        }
-
-        public static bool operator <=(FourOfAKind fourOfAKind, IPokerHand pokerHand)
-        {
-            var res = fourOfAKind.CompareTo(pokerHand);
-            return res == 0 || res == -1;
-        }
-        #endregion
     }
 }

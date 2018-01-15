@@ -69,48 +69,5 @@ namespace TexasHoldem.Hands
             throw new NotImplementedException();
         }
         #endregion
-
-        #region operator overloading
-
-        public static bool operator ==(Flush flush, IPokerHand pokerHand)
-        {
-            if (flush is null)
-            {
-                return pokerHand is null ? true : false;
-            }
-            return flush.Equals(pokerHand);
-        }
-
-        public static bool operator !=(Flush flush, IPokerHand pokerHand)
-        {
-            if (flush is null)
-            {
-                return pokerHand is null ? false : true;
-            }
-            return !flush.Equals(pokerHand);
-        }
-
-        public static bool operator >(Flush flush, IPokerHand pokerHand)
-        {
-            return flush.CompareTo(pokerHand) == 1;
-        }
-
-        public static bool operator >=(Flush flush, IPokerHand pokerHand)
-        {
-            var res = flush.CompareTo(pokerHand);
-            return res == 0 || res == 1;
-        }
-
-        public static bool operator <(Flush flush, IPokerHand pokerHand)
-        {
-            return flush.CompareTo(pokerHand) == -1;
-        }
-
-        public static bool operator <=(Flush flush, IPokerHand pokerHand)
-        {
-            var res = flush.CompareTo(pokerHand);
-            return res == 0 || res == -1;
-        }
-        #endregion
     }
 }

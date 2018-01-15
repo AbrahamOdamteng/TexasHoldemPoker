@@ -62,5 +62,49 @@ namespace TexasHoldem.Hands
             return false;
         }
 
+
+
+        #region operator overloading
+
+        public static bool operator ==(BaseHand baseHand, IPokerHand pokerHand)
+        {
+            if (baseHand is null)
+            {
+                return pokerHand is null ? true : false;
+            }
+            return baseHand.Equals(pokerHand);
+        }
+
+        public static bool operator !=(BaseHand baseHand, IPokerHand pokerHand)
+        {
+            if (baseHand is null)
+            {
+                return pokerHand is null ? false : true;
+            }
+            return !baseHand.Equals(pokerHand);
+        }
+
+        public static bool operator >(BaseHand baseHand, IPokerHand pokerHand)
+        {
+            return baseHand.CompareTo(pokerHand) == 1;
+        }
+
+        public static bool operator >=(BaseHand baseHand, IPokerHand pokerHand)
+        {
+            var res = baseHand.CompareTo(pokerHand);
+            return res == 0 || res == 1;
+        }
+
+        public static bool operator <(BaseHand baseHand, IPokerHand pokerHand)
+        {
+            return baseHand.CompareTo(pokerHand) == -1;
+        }
+
+        public static bool operator <=(BaseHand baseHand, IPokerHand pokerHand)
+        {
+            var res = baseHand.CompareTo(pokerHand);
+            return res == 0 || res == -1;
+        }
+        #endregion
     }
 }

@@ -130,48 +130,5 @@ namespace TexasHoldem.Hands
             return 0;
         }
         #endregion
-
-        #region operator overloading
-
-        public static bool operator ==(HighCard highCard, IPokerHand pokerHand)
-        {
-            if (highCard is null)
-            {
-                return pokerHand is null ? true : false;
-            }
-            return highCard.Equals(pokerHand);
-        }
-
-        public static bool operator !=(HighCard highCard, IPokerHand pokerHand)
-        {
-            if (highCard is null)
-            {
-                return pokerHand is null ? false : true;
-            }
-            return !highCard.Equals(pokerHand);
-        }
-
-        public static bool operator >(HighCard highCard, IPokerHand pokerHand)
-        {
-            return highCard.CompareTo(pokerHand) == 1;
-        }
-
-        public static bool operator >=(HighCard highCard, IPokerHand pokerHand)
-        {
-            var res = highCard.CompareTo(pokerHand);
-            return res == 0 || res == 1;
-        }
-
-        public static bool operator <(HighCard highCard, IPokerHand pokerHand)
-        {
-            return highCard.CompareTo(pokerHand) == -1;
-        }
-
-        public static bool operator <=(HighCard highCard, IPokerHand pokerHand)
-        {
-            var res = highCard.CompareTo(pokerHand);
-            return res == 0 || res == -1;
-        }
-        #endregion
     }
 }

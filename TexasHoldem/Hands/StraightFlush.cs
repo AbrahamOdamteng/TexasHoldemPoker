@@ -100,28 +100,6 @@ namespace TexasHoldem.Hands
 
         #endregion
 
-
-        #region Equality Operators
-        public static bool operator ==(StraightFlush straightFlush, IPokerHand pokerHand)
-        {
-            if (straightFlush is null)
-            {
-                return pokerHand is null ? true : false;
-            }
-            return straightFlush.Equals(pokerHand);
-        }
-
-        public static bool operator !=(StraightFlush straightFlush, IPokerHand pokerHand)
-        {
-            if (straightFlush is null)
-            {
-                return pokerHand is null ? false : true;
-            }
-            return !straightFlush.Equals(pokerHand);
-        }
-        #endregion
-
-
         #region Implementation of IComparable
         public override int CompareTo(IPokerHand other)
         {
@@ -138,32 +116,5 @@ namespace TexasHoldem.Hands
 
         }
         #endregion
-
-        #region Comparison Operators
-
-        public static bool operator >(StraightFlush straightFlush, IPokerHand pokerHand)
-        {
-            return straightFlush.CompareTo(pokerHand) == 1;
-        }
-
-        public static bool operator >=(StraightFlush straightFlush, IPokerHand pokerHand)
-        {
-            var res = straightFlush.CompareTo(pokerHand);
-            return res == 0 || res == 1;
-        }
-
-        public static bool operator <(StraightFlush straightFlush, IPokerHand pokerHand)
-        {
-            return straightFlush.CompareTo(pokerHand) == -1;
-        }
-
-        public static bool operator <=(StraightFlush straightFlush, IPokerHand pokerHand)
-        {
-            var res = straightFlush.CompareTo(pokerHand);
-            return res == 0 || res == -1;
-        }
-
-        #endregion
-
     }
 }

@@ -72,7 +72,7 @@ namespace TexasHoldem.Hands
         }
 
 
-        #region
+        #region Override of Object Methods
         public override bool Equals(object obj)
         {
             return base.Equals(obj);//Needed to surpress warnings
@@ -82,7 +82,6 @@ namespace TexasHoldem.Hands
         {
             return base.GetHashCode();//Needed to surpress warnings
         }
-
 
         #endregion
 
@@ -101,24 +100,6 @@ namespace TexasHoldem.Hands
             }
             return false;
         }
-        
-        public static bool operator == (RoyalFlush royalFlush, IPokerHand pokerHand)
-        {
-            if (royalFlush is null)
-            {
-                return pokerHand is null ? true : false;
-            }
-            return  royalFlush.Equals(pokerHand);
-        }
-
-        public static bool operator !=(RoyalFlush royalFlush, IPokerHand pokerHand)
-        {
-            if (royalFlush is null)
-            {
-                return pokerHand is null ? false :true;
-            }
-            return !royalFlush.Equals(pokerHand);
-        }
 
         #endregion
 
@@ -133,37 +114,6 @@ namespace TexasHoldem.Hands
             return 0;
         }
 
-        public static bool operator > (RoyalFlush royalFlush, IPokerHand pokerHandB)
-        {
-            return royalFlush.CompareTo(pokerHandB) == 1;
-        }
-
-        public static bool operator >= (RoyalFlush royalFlush, IPokerHand pokerHandB)
-        {
-            var res = royalFlush.CompareTo(pokerHandB);
-            return res == 0 || res == 1;
-        }
-
-        public static bool operator < (RoyalFlush royalFlush, IPokerHand pokerHandB)
-        {
-            return royalFlush.CompareTo(pokerHandB) == -1;
-        }
-
-        public static bool operator <= (RoyalFlush royalFlush, IPokerHand pokerHandB)
-        {
-            var res = royalFlush.CompareTo(pokerHandB);
-            return res == 0 || res == -1;
-        }
         #endregion
-
-
-
-
-
-
-
-
-
-
     }
 }
