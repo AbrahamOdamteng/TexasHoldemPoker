@@ -12,7 +12,7 @@ using Moq;
 namespace TexasHoldem.UnitTests
 {
     [TestFixture]
-    class RoyalFlushUnitTests
+    class RoyalFlushUnitTests: BaseUnitTests
     {
         #region Constructor tests
         //Royal Flush==========================================================
@@ -53,16 +53,7 @@ namespace TexasHoldem.UnitTests
             var cards = Utils.ParseCards(strCards);
             var royalFlush = RoyalFlush.CreateInstance(cards);
 
-            if (isValid)
-            {
-                Assert.NotNull(royalFlush);
-                Assert.AreEqual(HandRanks.RoyalFlush, royalFlush.HandRank);
-                CollectionAssert.AreEquivalent(cards, royalFlush.Cards);
-            }
-            else
-            {
-                Assert.IsNull(royalFlush);
-            }
+            CreateInstanceHelper(royalFlush, HandRanks.RoyalFlush, cards, isValid);
         }
 
         //[TestCase("AS 6H 5C JD TD", "KS 2H", false, Description = "Test HighCard ")]

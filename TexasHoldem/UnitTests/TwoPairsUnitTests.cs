@@ -6,7 +6,7 @@ using TexasHoldem.Utilities;
 namespace TexasHoldem.UnitTests
 {
     [TestFixture]
-    class TwoPairsUnitTests
+    class TwoPairsUnitTests: BaseUnitTests
     {
         //Royal Flush==========================================================
         [TestCase("TC JC QC KC AC", false, Description = "Royal Flush Clubs")]
@@ -46,41 +46,8 @@ namespace TexasHoldem.UnitTests
             var cards = Utils.ParseCards(strCards);
             var twoPairs = TwoPairs.CreateInstance(cards);
 
-            if (isValid)
-            {
-                Assert.NotNull(twoPairs);
-                Assert.AreEqual(HandRanks.TwoPairs, twoPairs.HandRank);
-                CollectionAssert.AreEquivalent(cards, twoPairs.Cards);
-            }
-            else
-            {
-                Assert.IsNull(twoPairs);
-            }
+            CreateInstanceHelper(twoPairs, HandRanks.TwoPairs, cards, isValid);
         }
-
-        //[TestCase("2C 3C 4C 5C 9C ", "3D 6C", "2C 3C 4C 5C 6C", true, Description = "Description")]
-        //public void Test_TwoPairs_CreateInstance(string strCommunityCards, string strHoleCards, string strCards, bool isValid)
-        //{
-        //    Assert.Fail();
-        //    var communityCards = Utils.ParseCards(strCommunityCards);
-        //    var holeCards = Utils.ParseCards(strHoleCards);
-
-        //    var pokername = StraightFlush.CreateInstance(communityCards, holeCards);
-
-        //    if (isValid)
-        //    {
-        //        var straightFlushCards = Utils.ParseCards(strCards);
-
-        //        Assert.IsNotNull(pokername);
-        //        Assert.AreEqual(HandRanks.StraightFlush, pokername.HandRank);
-        //        CollectionAssert.AreEquivalent(straightFlushCards, pokername.Cards);
-        //    }
-        //    else
-        //    {
-        //        Assert.IsNull(pokername);
-        //    }
-        //}
-
 
         [TestCase("8D 8C 5C 5H 2S", "8D 8C 5C 5H 2S", true)]
         [TestCase("QS QD 5H 5C KS", "AS AD 3S 3H JC", false)]
@@ -119,46 +86,46 @@ namespace TexasHoldem.UnitTests
         }
 
 
-        [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
+        [TestCase("8D 8C 5C 5H 2S", "8D 8C 5C 5H 2S", 0)]
         [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
         [TestCase("2D 3D 4D 5D 6D", "AH 2H 3H 4H 5H", 1)]
         public void Test_TwoPairs_ComparableTests(string strInputA, string strInputB, int comp)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
+            var twoPairsOne = TwoPairs.CreateInstance(cardsA);
+            var twoPairsTwo = TwoPairs.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, straightFlushOne.CompareTo(straightFlushTwo));
+            Assert.NotNull(twoPairsOne);
+            Assert.NotNull(twoPairsTwo);
+
+            Assert.AreEqual(comp, twoPairsOne.CompareTo(twoPairsTwo));
 
             if (comp == 0)
             {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
+                Assert.IsTrue(twoPairsOne >= twoPairsTwo);
+                Assert.IsTrue(twoPairsOne <= twoPairsTwo);
+                Assert.IsFalse(twoPairsOne > twoPairsTwo);
+                Assert.IsFalse(twoPairsOne < twoPairsTwo);
             }
             else if (comp == 1)
             {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne <= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
+                Assert.IsTrue(twoPairsOne >= twoPairsTwo);
+                Assert.IsFalse(twoPairsOne <= twoPairsTwo);
+                Assert.IsTrue(twoPairsOne > twoPairsTwo);
+                Assert.IsFalse(twoPairsOne < twoPairsTwo);
             }
             else if (comp == -1)
             {
-                Assert.IsFalse(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsTrue(straightFlushOne < straightFlushTwo);
+                Assert.IsFalse(twoPairsOne >= twoPairsTwo);
+                Assert.IsTrue(twoPairsOne <= twoPairsTwo);
+                Assert.IsFalse(twoPairsOne > twoPairsTwo);
+                Assert.IsTrue(twoPairsOne < twoPairsTwo);
             }
             else
             {
                 throw new ArgumentException("the value of comp can only be -1,0,1");
             }
         }
-
-
     }
 }

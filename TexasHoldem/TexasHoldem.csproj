@@ -79,6 +79,7 @@
     <Compile Include="Interfaces\IPokerHand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\BaseUnitTests.cs" />
     <Compile Include="UnitTests\CardUnitTests.cs" />
     <Compile Include="UnitTests\FlushUnitTests.cs" />
     <Compile Include="UnitTests\FourOfAKindUnitTests.cs" />

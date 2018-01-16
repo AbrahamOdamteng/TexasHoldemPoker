@@ -6,7 +6,7 @@ using TexasHoldem.Utilities;
 namespace TexasHoldem.UnitTests
 {
     [TestFixture]
-    class FullHouseUnitTests
+    class FullHouseUnitTests: BaseUnitTests
     {
 
 
@@ -48,16 +48,7 @@ namespace TexasHoldem.UnitTests
             var cards = Utils.ParseCards(strCards);
             var fullHouse = FullHouse.CreateInstance(cards);
 
-            if (isValid)
-            {
-                Assert.NotNull(fullHouse);
-                Assert.AreEqual(HandRanks.FullHouse, fullHouse.HandRank);
-                CollectionAssert.AreEquivalent(cards, fullHouse.Cards);
-            }
-            else
-            {
-                Assert.IsNull(fullHouse);
-            }
+            CreateInstanceHelper(fullHouse, HandRanks.FullHouse, cards, isValid);
         }
 
         //[TestCase("2C 3C 4C 5C 9C ", "3D 6C", "2C 3C 4C 5C 6C", true, Description = "Description")]

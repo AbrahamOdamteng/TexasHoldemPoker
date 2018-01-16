@@ -6,7 +6,7 @@ using TexasHoldem.Utilities;
 namespace TexasHoldem.UnitTests
 {
     [TestFixture]
-    class HighCardUnitTests
+    class HighCardUnitTests: BaseUnitTests
     {
         //Royal Flush==========================================================
         [TestCase("TC JC QC KC AC", false, Description = "Royal Flush Clubs")]
@@ -46,16 +46,7 @@ namespace TexasHoldem.UnitTests
             var cards = Utils.ParseCards(strCards);
             var highCard = HighCard.CreateInstance(cards);
 
-            if (isValid)
-            {
-                Assert.NotNull(highCard);
-                Assert.AreEqual(HandRanks.HighCard, highCard.HandRank);
-                CollectionAssert.AreEquivalent(cards, highCard.Cards);
-            }
-            else
-            {
-                Assert.IsNull(highCard);
-            }
+            CreateInstanceHelper(highCard, HandRanks.HighCard, cards, isValid);
         }
 
         //[TestCase("2C 4D 6H 8S TC", "QD AC", "AC QD", true, Description = "Test HighCard Constructor")]

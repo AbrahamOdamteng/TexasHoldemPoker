@@ -10,7 +10,7 @@ using TexasHoldem.Hands;
 namespace TexasHoldem.UnitTests
 {
     [TestFixture]
-    class StraightFlushUnitTests
+    class StraightFlushUnitTests: BaseUnitTests
     {
 
         //Royal Flush==========================================================
@@ -51,16 +51,7 @@ namespace TexasHoldem.UnitTests
             var cards = Utils.ParseCards(strCards);
             var straightFlush = StraightFlush.CreateInstance(cards);
 
-            if (isValid)
-            {
-                Assert.NotNull(straightFlush);
-                Assert.AreEqual(HandRanks.StraightFlush, straightFlush.HandRank);
-                CollectionAssert.AreEquivalent(cards, straightFlush.Cards);
-            }
-            else
-            {
-                Assert.IsNull(straightFlush);
-            }
+            CreateInstanceHelper(straightFlush, HandRanks.StraightFlush, cards, isValid);
         }
 
         //[TestCase("2C 6C 4C 8C TC ", "3D 6D", "", false, Description = "No Straigh-Flush")]

@@ -9,7 +9,7 @@ using TexasHoldem.Hands;
 namespace TexasHoldem.UnitTests
 {
     [TestFixture]
-    class FourOfAKindUnitTests
+    class FourOfAKindUnitTests: BaseUnitTests
     {
         //Royal Flush==========================================================
         [TestCase("TC JC QC KC AC", false, Description = "Royal Flush Clubs")]
@@ -49,16 +49,7 @@ namespace TexasHoldem.UnitTests
             var cards = Utils.ParseCards(strCards);
             var fourOfAKind = FourOfAKind.CreateInstance(cards);
 
-            if (isValid)
-            {
-                Assert.NotNull(fourOfAKind);
-                Assert.AreEqual(HandRanks.FourOfAKind, fourOfAKind.HandRank);
-                CollectionAssert.AreEquivalent(cards, fourOfAKind.Cards);
-            }
-            else
-            {
-                Assert.IsNull(fourOfAKind);
-            }
+            CreateInstanceHelper(fourOfAKind, HandRanks.FourOfAKind, cards, isValid);
         }
 
 
