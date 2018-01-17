@@ -90,7 +90,12 @@ namespace TexasHoldem.Hands
             if (HandRank > other.HandRank) return 1;
             if (HandRank < other.HandRank) return -1;
 
-            throw new NotImplementedException();
+            var otherHand = (OnePair)ConvertToThisType(other);
+
+            if (Pair.First().Rank > otherHand.Pair.First().Rank) return 1;
+            if (Pair.First().Rank < otherHand.Pair.First().Rank) return 1;
+
+            return Utils.ComapreCards(Kickers, otherHand.Kickers);
         }
         #endregion
     }

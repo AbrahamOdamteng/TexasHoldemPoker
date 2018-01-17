@@ -117,17 +117,7 @@ namespace TexasHoldem.Hands
             if (HandRank > other.HandRank) return 1;
             if (HandRank < other.HandRank) return -1;
 
-            var zippedCards = Enumerable.Zip(
-                Cards.OrderBy(c => c.Rank),
-                other.Cards.OrderBy(c => c.Rank),
-                (left, right) => new Tuple<Card, Card>(left, right));
-
-            foreach(var zip in zippedCards)
-            {
-                if (zip.Item1.Rank > zip.Item2.Rank) return 1;
-                if (zip.Item1.Rank < zip.Item2.Rank) return -1;
-            }
-            return 0;
+            return Utils.ComapreCards(Cards, other.Cards);
         }
         #endregion
     }

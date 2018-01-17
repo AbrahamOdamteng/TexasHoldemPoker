@@ -104,44 +104,18 @@ namespace TexasHoldem.UnitTests
             Assert.True(flush != (Flush)null);
         }
 
-        [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
-        [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
-        [TestCase("2D 3D 4D 5D 6D", "AH 2H 3H 4H 5H", 1)]
+        [TestCase("4H 6H 8H TH QH", "4D 6D 8D TD QD", 0)]
+        [TestCase("4H 6H 8H TH QH", "6D 8D TD QD KD", -1)]
+        [TestCase("6H 8H TH QH KH", "4D 6D 8D TD QD", 1)]
         public void Test_Flush_ComparableTests(string strInputA, string strInputB, int comp)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, straightFlushOne.CompareTo(straightFlushTwo));
+            var flushOne = Flush.CreateInstance(cardsA);
+            var flushTwo = Flush.CreateInstance(cardsB);
 
-            if (comp == 0)
-            {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
-            }
-            else if (comp == 1)
-            {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne <= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsTrue(straightFlushOne < straightFlushTwo);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(flushOne, flushTwo, comp);
         }
     }
 }

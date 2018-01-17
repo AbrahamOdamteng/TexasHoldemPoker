@@ -59,7 +59,12 @@ namespace TexasHoldem.Hands
             if (HandRank > other.HandRank) return 1;
             if (HandRank < other.HandRank) return -1;
 
-            throw new NotImplementedException();
+            var otherHighCard = Utils.GetHighestCard(other.Cards);
+            var myHighCard = Utils.GetHighestCard(Cards);
+
+            if (myHighCard.Rank > otherHighCard.Rank) return 1;
+            if (myHighCard.Rank < otherHighCard.Rank) return -1;
+            return 0;
         }
         #endregion
     }

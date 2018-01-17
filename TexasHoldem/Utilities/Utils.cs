@@ -197,5 +197,19 @@ namespace TexasHoldem.Utilities
 
             return cards.OrderBy(c => c.Rank).Last();
         }
+
+        public static int ComapreCards(IEnumerable<Card> myCards, IEnumerable<Card> theirCards)
+        {
+            var myCardsOrdered = myCards.OrderBy(c => c.Rank);
+            var theirCardsOrdered = theirCards.OrderBy(c => c.Rank);
+            var zip = myCardsOrdered.Zip(theirCardsOrdered, (mc, tc) => new { MyCard = mc, TheirCard = tc });
+
+            foreach (var item in zip)
+            {
+                if (item.MyCard.Rank > item.TheirCard.Rank) return 1;
+                if (item.MyCard.Rank < item.TheirCard.Rank) return -1;
+            }
+            return 0;
+        }
     }
 }

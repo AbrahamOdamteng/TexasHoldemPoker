@@ -103,44 +103,22 @@ namespace TexasHoldem.UnitTests
             Assert.True(onePair != (OnePair)null);
         }
 
-        [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
-        [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
-        [TestCase("2D 3D 4D 5D 6D", "AH 2H 3H 4H 5H", 1)]
+        [TestCase("5C 5D 6H 7S 8C", "5C 5D 6H 7S 8C", 0)]
+        [TestCase("5C 5D 8H 7S 6C", "5C 5D 9H 7S 6C", -1, Description = "Compare high")]
+        [TestCase("5C 5D 8H 7S 6C", "5C 5D 8H 9S 6C", -1, Description = "Compare mid")]
+        [TestCase("5C 5D 8H 7S 6C", "5C 5D 8H 7S 9C", -1, Description = "Compare low")]
+        [TestCase("5C 5D 9H 7S 6C", "5C 5D 8H 7S 6C", 1, Description = "Compare high")]
+        [TestCase("5C 5D 8H 9S 6C", "5C 5D 8H 7S 6C", 1, Description = "Compare mid")]
+        [TestCase("5C 5D 8H 7S 9C", "5C 5D 8H 7S 6C", 1, Description = "Compare low")]
         public void Test_OnePair_ComparableTests(string strInputA, string strInputB, int comp)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
+
             var onePairOne = OnePair.CreateInstance(cardsA);
-            var straightFlushTwo = OnePair.CreateInstance(cardsB);
+            var onePairTwo = OnePair.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, onePairOne.CompareTo(straightFlushTwo));
-
-            if (comp == 0)
-            {
-                Assert.IsTrue(onePairOne >= straightFlushTwo);
-                Assert.IsTrue(onePairOne <= straightFlushTwo);
-                Assert.IsFalse(onePairOne > straightFlushTwo);
-                Assert.IsFalse(onePairOne < straightFlushTwo);
-            }
-            else if (comp == 1)
-            {
-                Assert.IsTrue(onePairOne >= straightFlushTwo);
-                Assert.IsFalse(onePairOne <= straightFlushTwo);
-                Assert.IsTrue(onePairOne > straightFlushTwo);
-                Assert.IsFalse(onePairOne < straightFlushTwo);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(onePairOne >= straightFlushTwo);
-                Assert.IsTrue(onePairOne <= straightFlushTwo);
-                Assert.IsFalse(onePairOne > straightFlushTwo);
-                Assert.IsTrue(onePairOne < straightFlushTwo);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(onePairOne, onePairTwo, comp);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace TexasHoldem.UnitTests
         [TestCase("KC TS KD TC TD", false, Description = "Full house, Ten over Kings")]
         //Flush================================================================
         [TestCase("2C 4C TC 6C 8C", false, Description = "8 High Flush")]
-        [TestCase("AD 3D 5D 2D 4D", true, Description = "Ace high Flush")]
+        [TestCase("AD 3D 5D 2D 4D", false, Description = "Ace high Flush")]
         [TestCase("3D JD 5D 7D 9D", false, Description = "9 High Flush")]
         //Straight=============================================================
         [TestCase("AC KD QH JS TC", false, Description = "Ace high Straight")]
@@ -140,35 +140,11 @@ namespace TexasHoldem.UnitTests
         {
             var cardsA = Utils.ParseCards(royalFlushA);
             var cardsB = Utils.ParseCards(royalFlushB);
+
             var royalA = RoyalFlush.CreateInstance(cardsA);
             var royalB = RoyalFlush.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, royalA.CompareTo(royalB));
-
-            if(comp == 0)
-            {
-                Assert.IsTrue(royalA >= royalB);
-                Assert.IsTrue(royalA <= royalB);
-                Assert.IsFalse(royalA > royalB);
-                Assert.IsFalse(royalA < royalB);
-            }else if (comp == 1)
-            {
-                Assert.IsTrue(royalA >= royalB);
-                Assert.IsFalse(royalA <= royalB);
-                Assert.IsTrue(royalA > royalB);
-                Assert.IsFalse(royalA < royalB);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(royalA >= royalB);
-                Assert.IsTrue(royalA <= royalB);
-                Assert.IsFalse(royalA > royalB);
-                Assert.IsTrue(royalA < royalB);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(royalA, royalB, comp);
         }
 
         #endregion

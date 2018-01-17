@@ -106,5 +106,10 @@ namespace TexasHoldem.Hands
             return res == 0 || res == -1;
         }
         #endregion
+
+        public object ConvertToThisType(IPokerHand pokerHand)
+        {
+            return Convert.ChangeType(pokerHand, GetType());
+        }
     }
 }

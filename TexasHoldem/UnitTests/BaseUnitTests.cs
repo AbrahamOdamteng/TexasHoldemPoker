@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using TexasHoldem.Deck;
 using TexasHoldem.Hands;
@@ -25,12 +26,45 @@ namespace TexasHoldem.UnitTests
         {
             Assert.NotNull(pokerHandA);
             Assert.NotNull(pokerHandB);
-            Assert.IsFalse(object.ReferenceEquals(pokerHandA, pokerHandB));
+            Assert.IsFalse(ReferenceEquals(pokerHandA, pokerHandB));
 
             Assert.AreEqual(areEqual, pokerHandA.Equals(pokerHandB));
             Assert.AreEqual(areEqual, pokerHandA.Equals((object)pokerHandB));
             Assert.AreEqual(areEqual, pokerHandA == pokerHandB);
             Assert.AreEqual(!areEqual, pokerHandA != pokerHandB);
+        }
+
+        public void ComparableTestsHelper(BaseHand pokerHandA, BaseHand pokerHandB, int comp)
+        {
+            Assert.NotNull(pokerHandA);
+            Assert.NotNull(pokerHandB);
+            Assert.IsFalse(ReferenceEquals(pokerHandA, pokerHandB));
+
+            if (comp == 0)
+            {
+                Assert.IsTrue(pokerHandA >= pokerHandB);
+                Assert.IsTrue(pokerHandA <= pokerHandB);
+                Assert.IsFalse(pokerHandA > pokerHandB);
+                Assert.IsFalse(pokerHandA < pokerHandB);
+            }
+            else if (comp == 1)
+            {
+                Assert.IsTrue(pokerHandA >= pokerHandB);
+                Assert.IsFalse(pokerHandA <= pokerHandB);
+                Assert.IsTrue(pokerHandA > pokerHandB);
+                Assert.IsFalse(pokerHandA < pokerHandB);
+            }
+            else if (comp == -1)
+            {
+                Assert.IsFalse(pokerHandA >= pokerHandB);
+                Assert.IsTrue(pokerHandA <= pokerHandB);
+                Assert.IsFalse(pokerHandA > pokerHandB);
+                Assert.IsTrue(pokerHandA < pokerHandB);
+            }
+            else
+            {
+                throw new ArgumentException("the value of comp can only be -1,0,1");
+            }
         }
     }
 }

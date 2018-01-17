@@ -27,7 +27,7 @@ namespace TexasHoldem.UnitTests
         [TestCase("KC TS KD TC TD", false, Description = "Full house, Ten over Kings")]
         //Flush================================================================
         [TestCase("2C 4C TC 6C 8C", false, Description = "8 High Flush")]
-        [TestCase("AD 3D 5D 2D 4D", true, Description = "Ace high Flush")]
+        [TestCase("AD 3D 5D 2D 4D", false, Description = "Ace high Flush")]
         [TestCase("3D JD 5D 7D 9D", false, Description = "9 High Flush")]
         //Straight=============================================================
         [TestCase("AC KD QH JS TC", false, Description = "Ace high Straight")]
@@ -105,45 +105,20 @@ namespace TexasHoldem.UnitTests
             Assert.True(fourOfAKind != (FourOfAKind)null);
         }
 
-        [TestCase("7S 7S 7S 7S 8H", "7S 7S 7S 7S 8H", 0, Description = "Four-of-a-kind comparable zero test")]
-        [TestCase("7S 7S 7S 7S 8H", "7S 7S 7S 7S 9S", -1, Description = "Four-of-a-kind kicker comparable test ")]
-        [TestCase("7S 7S 7S 7S 9H", "7S 7S 7S 7S 8S", 1, Description = "Four-of-a-kind kicker comparable test inverse")]
-        [TestCase("7S 7S 7S 7S 8H", "8D 8D 8D 8D 9H", -1, Description = "Four-of-a-kind quad comparable test ")]
-        [TestCase("8D 8D 8D 8D 9H", "7S 7S 7S 7S 8H", 1, Description = "Four-of-a-kind quad comparable test inverse")]
+        [TestCase("7C 7D 7H 7S 8H", "7C 7D 7H 7S 8H", 0)]
+        [TestCase("7C 7D 7H 7S 8H", "9C 9D 9H 9S 8H", -1, Description = "quad test")]
+        [TestCase("9C 9D 9H 9S 8H", "7C 7D 7H 7S 8H", 1, Description = "quad test")]
+        [TestCase("7C 7D 7H 7S 8H", "7C 7D 7H 7S 9H", -1, Description = "kicker test")]
+        [TestCase("7C 7D 7H 7S 9H", "7C 7D 7H 7S 8H", 1, Description = "kicker test")]
         public void Test_FourOfAKind_ComparableTests(string strInputA, string strInputB, int comp)
         {
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
+
             var fourOfAKindOne = FourOfAKind.CreateInstance(cardsA);
             var fourOfAKindTwo = FourOfAKind.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, fourOfAKindOne.CompareTo(fourOfAKindTwo));
-
-            if (comp == 0)
-            {
-                Assert.IsTrue(fourOfAKindOne >= fourOfAKindTwo);
-                Assert.IsTrue(fourOfAKindOne <= fourOfAKindTwo);
-                Assert.IsFalse(fourOfAKindOne > fourOfAKindTwo);
-                Assert.IsFalse(fourOfAKindOne < fourOfAKindTwo);
-            }
-            else if (comp == 1)
-            {
-                Assert.IsTrue(fourOfAKindOne >= fourOfAKindTwo);
-                Assert.IsFalse(fourOfAKindOne <= fourOfAKindTwo);
-                Assert.IsTrue(fourOfAKindOne > fourOfAKindTwo);
-                Assert.IsFalse(fourOfAKindOne < fourOfAKindTwo);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(fourOfAKindOne >= fourOfAKindTwo);
-                Assert.IsTrue(fourOfAKindOne <= fourOfAKindTwo);
-                Assert.IsFalse(fourOfAKindOne > fourOfAKindTwo);
-                Assert.IsTrue(fourOfAKindOne < fourOfAKindTwo);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(fourOfAKindOne, fourOfAKindTwo, comp);
         }
     }
 }

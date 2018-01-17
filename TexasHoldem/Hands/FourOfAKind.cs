@@ -99,17 +99,13 @@ namespace TexasHoldem.Hands
             if (HandRank > other.HandRank) return 1;
             if (HandRank < other.HandRank) return -1;
 
-            var otherFourOfAKind = other as FourOfAKind;
-            if (otherFourOfAKind is null)
-            {
-                throw new ArgumentException("could not covert object to FourOfAKind");
-            }
+            var otherHand = (FourOfAKind)ConvertToThisType(other);
 
-            if (QuadRank > otherFourOfAKind.QuadRank) return 1;
-            if (QuadRank < otherFourOfAKind.QuadRank) return -1;
+            if (QuadRank > otherHand.QuadRank) return 1;
+            if (QuadRank < otherHand.QuadRank) return -1;
 
-            if (Kicker.Rank > otherFourOfAKind.Kicker.Rank) return 1;
-            if (Kicker.Rank < otherFourOfAKind.Kicker.Rank) return -1;
+            if (Kicker.Rank > otherHand.Kicker.Rank) return 1;
+            if (Kicker.Rank < otherHand.Kicker.Rank) return -1;
 
             return 0;
         }

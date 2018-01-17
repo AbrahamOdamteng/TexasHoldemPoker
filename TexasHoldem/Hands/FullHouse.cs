@@ -89,7 +89,12 @@ namespace TexasHoldem.Hands
             if (HandRank > other.HandRank) return 1;
             if (HandRank < other.HandRank) return -1;
 
-            throw new NotImplementedException();
+            var otherHand = (FullHouse)ConvertToThisType(other);
+            var cmp = Utils.ComapreCards(Triple, otherHand.Triple);
+
+            if (cmp != 0) return cmp;
+
+            return Utils.ComapreCards(Pair, otherHand.Pair);
         }
         #endregion
     }

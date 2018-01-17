@@ -112,45 +112,18 @@ namespace TexasHoldem.UnitTests
             Assert.True(highCard != (HighCard)null);
         }
 
-        [TestCase("2H 3H", "2D 3D", 0)]
-        [TestCase("2H 3H", "3D 4D", -1)]
-        [TestCase("6D 3D", "4H 2H", 1)]
-        [TestCase("AD 3D", "AH 2H", 1)]
-        [TestCase("AD 3D", "AH 4H", -1)]
+        [TestCase("2S 4C 6D 8H TS", "2S 4C 6D 8H TS", 0)]
+        [TestCase("2S 4C 6D 8H 9S", "2S 4C 6D 8H TS", -1)]
+        [TestCase("2S 4C 6D 8H TS", "2S 4C 6D 8H 9S", 1)]
         public void Test_HighCard_ComparableTests(string strInputA, string strInputB, int comp)
         {
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
-            var hightCardOne = HighCard.CreateInstance(cardsA);
-            var hightCardTwo = HighCard.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, hightCardOne.CompareTo(hightCardTwo));
+            var highCardOne = HighCard.CreateInstance(cardsA);
+            var highCardTwo = HighCard.CreateInstance(cardsB);
 
-            if (comp == 0)
-            {
-                Assert.IsTrue(hightCardOne >= hightCardTwo);
-                Assert.IsTrue(hightCardOne <= hightCardTwo);
-                Assert.IsFalse(hightCardOne > hightCardTwo);
-                Assert.IsFalse(hightCardOne < hightCardTwo);
-            }
-            else if (comp == 1)
-            {
-                Assert.IsTrue(hightCardOne >= hightCardTwo);
-                Assert.IsFalse(hightCardOne <= hightCardTwo);
-                Assert.IsTrue(hightCardOne > hightCardTwo);
-                Assert.IsFalse(hightCardOne < hightCardTwo);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(hightCardOne >= hightCardTwo);
-                Assert.IsTrue(hightCardOne <= hightCardTwo);
-                Assert.IsFalse(hightCardOne > hightCardTwo);
-                Assert.IsTrue(hightCardOne < hightCardTwo);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(highCardOne, highCardTwo, comp);
         }
 
 

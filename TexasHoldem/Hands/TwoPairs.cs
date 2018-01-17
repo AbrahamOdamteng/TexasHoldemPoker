@@ -88,9 +88,19 @@ namespace TexasHoldem.Hands
             if (other is null) return 1;
             if (HandRank > other.HandRank) return 1;
             if (HandRank < other.HandRank) return -1;
-           
 
-            throw new NotImplementedException();
+            var otherHand = (TwoPairs)ConvertToThisType(other);
+
+            if (HighPair.First().Rank > otherHand.HighPair.First().Rank) return 1;
+            if (HighPair.First().Rank < otherHand.HighPair.First().Rank) return -1;
+
+            if (LowPair.First().Rank > otherHand.LowPair.First().Rank) return 1;
+            if (LowPair.First().Rank < otherHand.LowPair.First().Rank) return -1;
+
+            if (Kicker.Rank > otherHand.Kicker.Rank) return 1;
+            if (Kicker.Rank < otherHand.Kicker.Rank) return -1;
+
+            return 0;//in a real game this should NEVER happen!
         }
         #endregion
     }

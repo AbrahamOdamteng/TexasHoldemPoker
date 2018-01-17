@@ -88,7 +88,12 @@ namespace TexasHoldem.Hands
             if (HandRank > other.HandRank) return 1;
             if (HandRank < other.HandRank) return -1;
 
-            throw new NotImplementedException();
+            var otherHand = (ThreeOfAkind)ConvertToThisType(other);
+
+            if (Triple.First().Rank > otherHand.Triple.First().Rank) return 1;
+            if (Triple.First().Rank < otherHand.Triple.First().Rank) return -1;
+
+            return Utils.ComapreCards(Kickers, otherHand.Kickers);
         }
         #endregion
     }

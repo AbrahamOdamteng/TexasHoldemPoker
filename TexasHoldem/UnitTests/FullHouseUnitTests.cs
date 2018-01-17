@@ -26,7 +26,7 @@ namespace TexasHoldem.UnitTests
         [TestCase("KC TS KD TC TD", true, Description = "Full house, Ten over Kings")]
         //Flush================================================================
         [TestCase("2C 4C TC 6C 8C", false, Description = "8 High Flush")]
-        [TestCase("AD 3D 5D 2D 4D", true, Description = "Ace high Flush")]
+        [TestCase("AD 3D 5D 2D 4D", false, Description = "Ace high Flush")]
         [TestCase("3D JD 5D 7D 9D", false, Description = "9 High Flush")]
         //Straight=============================================================
         [TestCase("AC KD QH JS TC", false, Description = "Ace high Straight")]
@@ -106,47 +106,19 @@ namespace TexasHoldem.UnitTests
             Assert.True(fullHouse != (FullHouse)null);
         }
 
-        [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
-        [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
-        [TestCase("2D 3D 4D 5D 6D", "AH 2H 3H 4H 5H", 1)]
+        [TestCase("6C 6D 6H 4S 4C", "6C 6D 6H 4S 4C", 0)]
+        [TestCase("6C 6D 6H 4S 4C", "6C 6D 6H 5S 5C", -1)]
+        [TestCase("6C 6D 6H 5S 5C", "6C 6D 6H 4S 4C", 1)]
         public void Test_FullHouse_ComparableTests(string strInputA, string strInputB, int comp)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, straightFlushOne.CompareTo(straightFlushTwo));
+            var fullHouseOne = FullHouse.CreateInstance(cardsA);
+            var fullHouseTwo = FullHouse.CreateInstance(cardsB);
 
-            if (comp == 0)
-            {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
-            }
-            else if (comp == 1)
-            {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne <= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsTrue(straightFlushOne < straightFlushTwo);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(fullHouseOne, fullHouseTwo, comp);
         }
-
-
     }
 }
 

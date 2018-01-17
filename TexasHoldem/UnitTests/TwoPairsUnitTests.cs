@@ -80,46 +80,24 @@ namespace TexasHoldem.UnitTests
         }
 
 
-        [TestCase("8D 8C 5C 5H 2S", "8D 8C 5C 5H 2S", 0)]
-        [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
-        [TestCase("2D 3D 4D 5D 6D", "AH 2H 3H 4H 5H", 1)]
+        [TestCase("8D 8C 5C 5H 3S", "8D 8C 5C 5H 3S", 0)]
+        //-------------------------------
+        [TestCase("7C 7D 5H 5S 3C", "8D 8H 5S 5C 3D", -1, Description = "Compare High Pair")]
+        [TestCase("8D 8H 4S 4C 3D", "8H 8S 5C 5D 3H", -1, Description = "Compare Low Pair")]
+        [TestCase("8H 8S 5C 5D 2H", "8S 8C 5D 5H 3S", -1, Description = "Compare kicker")]
+        //-------------------------------
+        [TestCase("7C 7D 5H 5S 4C", "6D 6H 5S 5C 4D", 1, Description = "Compare High Pair")]
+        [TestCase("7D 7H 6S 6C 4D", "7H 7S 5C 5D 4H", 1, Description = "Compare Low Pair")]
+        [TestCase("7H 7S 5C 5D 4H", "7S 7C 5D 5H 3S", 1, Description = "Compare kicker")]
         public void Test_TwoPairs_ComparableTests(string strInputA, string strInputB, int comp)
         {
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
+
             var twoPairsOne = TwoPairs.CreateInstance(cardsA);
             var twoPairsTwo = TwoPairs.CreateInstance(cardsB);
 
-            Assert.NotNull(twoPairsOne);
-            Assert.NotNull(twoPairsTwo);
-
-            Assert.AreEqual(comp, twoPairsOne.CompareTo(twoPairsTwo));
-
-            if (comp == 0)
-            {
-                Assert.IsTrue(twoPairsOne >= twoPairsTwo);
-                Assert.IsTrue(twoPairsOne <= twoPairsTwo);
-                Assert.IsFalse(twoPairsOne > twoPairsTwo);
-                Assert.IsFalse(twoPairsOne < twoPairsTwo);
-            }
-            else if (comp == 1)
-            {
-                Assert.IsTrue(twoPairsOne >= twoPairsTwo);
-                Assert.IsFalse(twoPairsOne <= twoPairsTwo);
-                Assert.IsTrue(twoPairsOne > twoPairsTwo);
-                Assert.IsFalse(twoPairsOne < twoPairsTwo);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(twoPairsOne >= twoPairsTwo);
-                Assert.IsTrue(twoPairsOne <= twoPairsTwo);
-                Assert.IsFalse(twoPairsOne > twoPairsTwo);
-                Assert.IsTrue(twoPairsOne < twoPairsTwo);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(twoPairsOne, twoPairsTwo, comp);
         }
     }
 }

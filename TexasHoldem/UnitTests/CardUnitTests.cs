@@ -24,6 +24,7 @@ namespace TexasHoldem.UnitTests
         }
 
         [TestCase("", "The string representation of a card must be exactly two characters")]
+        [TestCase("8", "The string representation of a card must be exactly two characters")]
         [TestCase("abc", "The string representation of a card must be exactly two characters")]
         [TestCase("1H", "Enum 'CardRanks' does not contain value: 1")]
         [TestCase("2Z", "Enum 'CardSuits' does not contain value: Z")]

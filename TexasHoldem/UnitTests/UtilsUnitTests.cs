@@ -89,6 +89,12 @@ namespace TexasHoldem.UnitTests
             var hiCard = Utils.GetHighestCard(cards);
             Assert.AreEqual(highCard, hiCard.ToString());
         }
+
+        [Test]
+        public void Test_Utils_ComapreCards()
+        {
+            Assert.Fail();
+        }
     }
 
 

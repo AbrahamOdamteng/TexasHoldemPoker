@@ -103,44 +103,22 @@ namespace TexasHoldem.UnitTests
             Assert.True(threeOfAKind != (ThreeOfAkind)null);
         }
 
-        [TestCase("2H 3H 4H 5H 6H", "2D 3D 4D 5D 6D", 0)]
-        [TestCase("AH 2H 3H 4H 5H", "2D 3D 4D 5D 6D", -1)]
-        [TestCase("2D 3D 4D 5D 6D", "AH 2H 3H 4H 5H", 1)]
+        [TestCase("2C 2D 2H 3S 4C", "2D 2H 2S 3C 4D", 0)]
+        [TestCase("2C 2D 2H 3S 4C", "3D 3H 3S 2C 4D", -1, Description = "Compare triple")]
+        [TestCase("2C 2D 2H 3S 4C", "2D 2H 2S 4C 5D", -1, Description = "Compare low card")]
+        [TestCase("2C 2D 2H 3S 4C", "2D 2H 2S 3C 5D", -1, Description = "Compare low card")]
+        [TestCase("8C 8D 8H 7S 6C", "7C 7D 7H 6S 5C", 1, Description = "Compare triple")]
+        [TestCase("8C 8D 8H 7S 6C", "8C 8D 8H 7S 5C", 1, Description = "Compare low card")]
+        [TestCase("8C 8D 8H 9S 6C", "8C 8D 8H 7S 6C", 1, Description = "Compare high card")]
         public void Test_ThreeOfAkind_ComparableTests(string strInputA, string strInputB, int comp)
         {
-            throw new NotImplementedException();
             var cardsA = Utils.ParseCards(strInputA);
             var cardsB = Utils.ParseCards(strInputB);
-            var straightFlushOne = StraightFlush.CreateInstance(cardsA);
-            var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
 
-            Assert.AreEqual(comp, straightFlushOne.CompareTo(straightFlushTwo));
+            var threeOfAkindOne = ThreeOfAkind.CreateInstance(cardsA);
+            var threeOfAkindTwo = ThreeOfAkind.CreateInstance(cardsB);
 
-            if (comp == 0)
-            {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
-            }
-            else if (comp == 1)
-            {
-                Assert.IsTrue(straightFlushOne >= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne <= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne > straightFlushTwo);
-                Assert.IsFalse(straightFlushOne < straightFlushTwo);
-            }
-            else if (comp == -1)
-            {
-                Assert.IsFalse(straightFlushOne >= straightFlushTwo);
-                Assert.IsTrue(straightFlushOne <= straightFlushTwo);
-                Assert.IsFalse(straightFlushOne > straightFlushTwo);
-                Assert.IsTrue(straightFlushOne < straightFlushTwo);
-            }
-            else
-            {
-                throw new ArgumentException("the value of comp can only be -1,0,1");
-            }
+            ComparableTestsHelper(threeOfAkindOne, threeOfAkindTwo, comp);
         }
 
 
