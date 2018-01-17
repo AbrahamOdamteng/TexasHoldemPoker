@@ -91,13 +91,7 @@ namespace TexasHoldem.UnitTests
             var highCardOne = HighCard.CreateInstance(cardsA);
             var highCardTwo = HighCard.CreateInstance(cardsB);
 
-            Assert.NotNull(highCardOne);
-            Assert.NotNull(highCardTwo);
-
-            Assert.AreEqual(areEqual, highCardOne.Equals(highCardTwo));
-            Assert.AreEqual(areEqual, highCardOne.Equals((object)highCardTwo));
-            Assert.AreEqual(areEqual, highCardOne == highCardTwo);
-            Assert.AreEqual(!areEqual, highCardOne != highCardTwo);
+            EqualityOperatorsHelper(highCardOne, highCardTwo, areEqual);
         }
 
 

@@ -85,10 +85,7 @@ namespace TexasHoldem.UnitTests
             var fullHouseOne = FullHouse.CreateInstance(cardsA);
             var fullHouseTwo = FullHouse.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, fullHouseOne.Equals(fullHouseTwo));
-            Assert.AreEqual(areEqual, fullHouseOne.Equals((object)fullHouseTwo));
-            Assert.AreEqual(areEqual, fullHouseOne == fullHouseTwo);
-            Assert.AreEqual(!areEqual, fullHouseOne != fullHouseTwo);
+            EqualityOperatorsHelper(fullHouseOne, fullHouseTwo, areEqual);
         }
 
 

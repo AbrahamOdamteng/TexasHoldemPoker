@@ -83,13 +83,7 @@ namespace TexasHoldem.UnitTests
             var threeOfAKindOne = ThreeOfAkind.CreateInstance(cardsA);
             var threeOfAKindTwo = ThreeOfAkind.CreateInstance(cardsB);
 
-            Assert.NotNull(threeOfAKindOne);
-            Assert.NotNull(threeOfAKindTwo);
-
-            Assert.AreEqual(areEqual, threeOfAKindOne.Equals(threeOfAKindTwo));
-            Assert.AreEqual(areEqual, threeOfAKindOne.Equals((object)threeOfAKindTwo));
-            Assert.AreEqual(areEqual, threeOfAKindOne == threeOfAKindTwo);
-            Assert.AreEqual(!areEqual, threeOfAKindOne != threeOfAKindTwo);
+            EqualityOperatorsHelper(threeOfAKindOne, threeOfAKindTwo, areEqual);
         }
 
         [Test]

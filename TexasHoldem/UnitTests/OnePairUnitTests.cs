@@ -83,13 +83,7 @@ namespace TexasHoldem.UnitTests
             var OnePairOne = OnePair.CreateInstance(cardsA);
             var OnePairTwo = OnePair.CreateInstance(cardsB);
 
-            Assert.NotNull(OnePairOne);
-            Assert.NotNull(OnePairTwo);
-
-            Assert.AreEqual(areEqual, OnePairOne.Equals(OnePairTwo));
-            Assert.AreEqual(areEqual, OnePairOne.Equals((object)OnePairTwo));
-            Assert.AreEqual(areEqual, OnePairOne == OnePairTwo);
-            Assert.AreEqual(!areEqual, OnePairOne != OnePairTwo);
+            EqualityOperatorsHelper(OnePairOne, OnePairTwo, areEqual);
         }
 
         [Test]

@@ -82,13 +82,7 @@ namespace TexasHoldem.UnitTests
             var straightOne = Straight.CreateInstance(cardsA);
             var straightTwo = Straight.CreateInstance(cardsB);
 
-            Assert.NotNull(straightOne);
-            Assert.NotNull(straightTwo);
-
-            Assert.AreEqual(areEqual, straightOne.Equals(straightTwo));
-            Assert.AreEqual(areEqual, straightOne.Equals((object)straightTwo));
-            Assert.AreEqual(areEqual, straightOne == straightTwo);
-            Assert.AreEqual(!areEqual, straightOne != straightTwo);
+            EqualityOperatorsHelper(straightOne, straightTwo, areEqual);
         }
 
         [Test]

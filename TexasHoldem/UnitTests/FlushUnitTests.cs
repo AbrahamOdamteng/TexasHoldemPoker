@@ -83,10 +83,7 @@ namespace TexasHoldem.UnitTests
             var flushOne = Flush.CreateInstance(cardsA);
             var flushTwo = Flush.CreateInstance(cardsB);
 
-            Assert.AreEqual(areEqual, flushOne.Equals(flushTwo));
-            Assert.AreEqual(areEqual, flushOne.Equals((object)flushTwo));
-            Assert.AreEqual(areEqual, flushOne == flushTwo);
-            Assert.AreEqual(!areEqual, flushOne != flushTwo);
+            EqualityOperatorsHelper(flushOne, flushTwo, areEqual);
         }
 
 

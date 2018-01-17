@@ -113,13 +113,7 @@ namespace TexasHoldem.UnitTests
             var royalFlushOne = RoyalFlush.CreateInstance(cardsA);
             var royalFlushTwo = RoyalFlush.CreateInstance(cardsB);
 
-            Assert.NotNull(royalFlushOne);
-            Assert.NotNull(royalFlushTwo);
-
-            Assert.AreEqual(areEqual, royalFlushOne.Equals(royalFlushTwo));
-            Assert.AreEqual(areEqual, royalFlushOne.Equals((object)royalFlushTwo));
-            Assert.AreEqual(areEqual, royalFlushOne == royalFlushTwo);
-            Assert.AreEqual(!areEqual, royalFlushOne != royalFlushTwo);
+            EqualityOperatorsHelper(royalFlushOne, royalFlushTwo, areEqual);
         }
 
         [Test]

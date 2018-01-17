@@ -85,13 +85,7 @@ namespace TexasHoldem.UnitTests
             var FourOfAKindOne = FourOfAKind.CreateInstance(cardsA);
             var FourOfAKindTwo = FourOfAKind.CreateInstance(cardsB);
 
-            Assert.NotNull(FourOfAKindOne);
-            Assert.NotNull(FourOfAKindTwo);
-
-            Assert.AreEqual(areEqual, FourOfAKindOne.Equals(FourOfAKindTwo));
-            Assert.AreEqual(areEqual, FourOfAKindOne.Equals((object)FourOfAKindTwo));
-            Assert.AreEqual(areEqual, FourOfAKindOne == FourOfAKindTwo);
-            Assert.AreEqual(!areEqual, FourOfAKindOne != FourOfAKindTwo);
+            EqualityOperatorsHelper(FourOfAKindOne, FourOfAKindTwo, areEqual);
         }
 
         [Test]

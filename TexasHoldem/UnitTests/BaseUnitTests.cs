@@ -20,5 +20,17 @@ namespace TexasHoldem.UnitTests
                 Assert.IsNull(pokerHand);
             }
         }
+
+        protected void EqualityOperatorsHelper(BaseHand pokerHandA, BaseHand pokerHandB, bool areEqual)
+        {
+            Assert.NotNull(pokerHandA);
+            Assert.NotNull(pokerHandB);
+            Assert.IsFalse(object.ReferenceEquals(pokerHandA, pokerHandB));
+
+            Assert.AreEqual(areEqual, pokerHandA.Equals(pokerHandB));
+            Assert.AreEqual(areEqual, pokerHandA.Equals((object)pokerHandB));
+            Assert.AreEqual(areEqual, pokerHandA == pokerHandB);
+            Assert.AreEqual(!areEqual, pokerHandA != pokerHandB);
+        }
     }
 }

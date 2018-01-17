@@ -99,13 +99,7 @@ namespace TexasHoldem.UnitTests
             var straightFlushOne = StraightFlush.CreateInstance(cardsA);
             var straightFlushTwo = StraightFlush.CreateInstance(cardsB);
 
-            Assert.NotNull(straightFlushOne);
-            Assert.NotNull(straightFlushTwo);
-
-            Assert.AreEqual(areEqual, straightFlushOne.Equals(straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne.Equals((object)straightFlushTwo));
-            Assert.AreEqual(areEqual, straightFlushOne == straightFlushTwo);
-            Assert.AreEqual(!areEqual, straightFlushOne != straightFlushTwo);
+            EqualityOperatorsHelper(straightFlushOne, straightFlushTwo, areEqual);
         }
 
         [Test]
